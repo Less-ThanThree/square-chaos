@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Main/Main.gd" id="1_a357n"]
 
-[node name="Main" type="Node"]
+[node name="Start" type="Node"]
 script = ExtResource("1_a357n")
 
 [node name="BoxContainer" type="BoxContainer" parent="."]

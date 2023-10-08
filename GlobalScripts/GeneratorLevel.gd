@@ -1,8 +1,5 @@
 extends Node
 
-@export var minGeneratePlate = 1
-@export var maxGeneratePlate = 4
-
 var matrixTemplateX2 = [
 	[0,0],
 	[0,0],
@@ -18,9 +15,11 @@ var matrixTemplateX4 = [
 	[0,0,0,0],
 	[0,0,0,0],
 	[0,0,0,0],
+	[0,0,0,0],
 ]
 
-func generateMatrixLevel(size):
+# Size - размер матрицы, maxGeneratorPlate - максимальное количество плит в матрице
+func generateMatrixLevel(size: int, maxGeneratePlate: int) -> Array:
 	var sumPlate = 0
 	var matrixTemplate
 	
@@ -38,6 +37,4 @@ func generateMatrixLevel(size):
 			if randi_range(0, 1) == 1 && sumPlate <= maxGeneratePlate:
 				matrixTemplate[x][y] = 1
 				sumPlate += 1
-				
-	for array in matrixTemplate.size():
-		print(matrixTemplate[array])
+	return matrixTemplate

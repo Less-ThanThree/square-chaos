@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://diih2muwwdlg"]
+
+[ext_resource type="PackedScene" uid="uid://scgo1kktsoxp" path="res://Scenes/Level/Level.tscn" id="1_1m7tf"]
+
+[node name="Game" type="Node"]
+
+[node name="BoxContainer" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 8.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.978326, 0.467175)
+size_flags_vertical = 3
+
+[node name="Node2D" parent="BoxContainer" instance=ExtResource("1_1m7tf")]
+layout_mode = 2

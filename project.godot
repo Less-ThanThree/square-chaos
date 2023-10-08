@@ -24,6 +24,7 @@ GeneratorLevel="*res://GlobalScripts/GeneratorLevel.gd"
 
 window/size/viewport_width=720
 window/size/viewport_height=1440
+window/stretch/mode="canvas_items"
 window/handheld/orientation=5
 
 [rendering]
