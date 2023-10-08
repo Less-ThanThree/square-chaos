@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://3g34cqw5j22k"]
+
+[node name="Level" type="Node"]
+
+[node name="BoxContainer" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.67451, 0.67451, 0.67451, 1)
