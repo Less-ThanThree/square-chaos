@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc0j6ufjauf6j"]
+
+[ext_resource type="Script" path="res://Scenes/Timers/timers.gd" id="1_jxib6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_03a8i"]
+bg_color = Color(0.929412, 0.168627, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qimm2"]
+bg_color = Color(0.619608, 0.0470588, 0.211765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v8b7q"]
+bg_color = Color(1, 1, 1, 0.67451)
+
+[node name="timers" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_jxib6")
+
+[node name="local_progress" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 700.0
+offset_right = 657.0
+offset_bottom = 709.0
+theme_override_font_sizes/font_size = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_03a8i")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qimm2")
+fill_mode = 1
+show_percentage = false
+
+[node name="Label" type="Label" parent="local_progress"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -51.5
+offset_top = -9.0
+offset_right = 51.5
+offset_bottom = 17.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.929412, 0.168627, 0, 1)
+theme_override_constants/outline_size = 5
+text = "Время пазла"
+
+[node name="local_tm" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[node name="seconds_tm" type="Timer" parent="."]
+wait_time = 0.001
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -1
+layout_mode = 0
+offset_left = 70.0
+offset_top = 669.0
+offset_right = 657.0
+offset_bottom = 709.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_v8b7q")
+
+[node name="global_tm_label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.5
+offset_top = -16.0
+offset_right = 20.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "00:37"
+
+[node name="global_tm" type="Timer" parent="."]
+
+[connection signal="timeout" from="local_tm" to="." method="_on_local_tm_timeout"]
+[connection signal="timeout" from="seconds_tm" to="." method="_on_seconds_tm_timeout"]
