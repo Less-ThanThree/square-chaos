@@ -34,4 +34,5 @@ size_flags_vertical = 3
 [node name="Node2D" parent="BoxContainer" instance=ExtResource("1_1m7tf")]
 layout_mode = 2
 
+[connection signal="compareLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
 [connection signal="readyLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]

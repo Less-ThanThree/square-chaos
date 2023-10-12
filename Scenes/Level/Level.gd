@@ -4,6 +4,7 @@ extends Control
 @onready var plate = load("res://Scenes/Plates/PlateDefault.tscn")
 @onready var gridLevel = $GridContainer
 signal readyLevel
+signal compareLevel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,12 +12,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if PlayerStatus.matrixCompare == true:
+	if PlayerStatus.getCompareMatrix():
+		freeLevel()
 		generateLevel(3, 6)
 
+# Генерация матрицы для уровня levelSize: размер матрицы, maxPlate: максимальное количество полей
 func generateLevel(levelSize: int, maxPlate: int) -> void:
 	var matrixLevel = GeneratorLevel.generateMatrixLevel(levelSize, maxPlate)
-	print(matrixLevel)
 	
 	gridLevel.set_columns(levelSize)
 	
@@ -28,3 +30,10 @@ func generateLevel(levelSize: int, maxPlate: int) -> void:
 			if matrixLevel[x][y] == 1:
 				plate_instance.get_node("ColorRect").set_color(Color(0, 0, 0))
 	readyLevel.emit()
+
+# Очищаем уровень
+func freeLevel():
+	for node in gridLevel.get_children():
+		gridLevel.remove_child(node)
+		node.queue_free()
+	compareLevel.emit()

@@ -1,9 +1,16 @@
 extends Node
 
+# Матрица для текущего уровня
 var _currentField: Array = [] : set = setCurrentLevelField, get = getCurrentLevelField
+
+# Матрица игрового поля
 var _playerField: Array = [] : set = setPlayerLevelField, get = getPlayerLevelField
+
+# Статус готовности уровня
 var _readyLevel: bool = false : set = setReadyLevel, get = getReadyLevel
-var matrixCompare = false
+
+# Статус сравнения матриц
+var _matrixCompare: bool = false : set = setCompareMatrix, get = getCompareMatrix
 
 func setCurrentLevelField(matrix: Array) -> void:
 	_currentField = matrix
@@ -22,3 +29,9 @@ func setReadyLevel(isReady: bool) -> void:
 
 func getReadyLevel() -> bool:
 	return _readyLevel
+
+func setCompareMatrix(isCompare: bool) -> void:
+	_matrixCompare = isCompare
+
+func getCompareMatrix() -> bool:
+	return _matrixCompare

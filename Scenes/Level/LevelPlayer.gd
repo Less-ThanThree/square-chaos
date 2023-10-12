@@ -7,11 +7,12 @@ var arrayPlateIndexs = []
 func _ready():
 	pass
 
+# Генерация поля для игрока
 func generateLevel(matrix) -> void:
-	gridLevel.set_columns(matrix.size())
 	var xCounter = -1
 	var yCounter = -1
 	
+	gridLevel.set_columns(matrix.size())
 	for x in matrix.size():
 		xCounter += 1
 		yCounter = -1
@@ -21,12 +22,11 @@ func generateLevel(matrix) -> void:
 			plate_instance.set_name("plate_{x}_{y}_{val}".format({"x": xCounter, "y": yCounter, "val": matrix[x][y]}))
 			print(plate_instance.get_name())
 			gridLevel.add_child(plate_instance)
-#	gridLevel.get_node('plate_0_0').get_node("ColorRect").set_color(Color(0, 0, 0))
 
 func _on_node_2d_ready_level():
 	generateLevel(PlayerStatus.getPlayerLevelField())
 
-#func isClick():
-	
-
-
+func _on_node_2d_compare_level():
+	for node in gridLevel.get_children():
+		gridLevel.remove_child(node)
+		node.queue_free()
