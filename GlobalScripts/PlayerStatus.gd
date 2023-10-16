@@ -3,7 +3,17 @@ extends Node
 # Матрица для текущего уровня
 var _currentField: Array = []
 
+# Размер матрицы 
+# 2 - 2х2
+# 3 - 3х3
+# 4 - 4х4
 var currentSize = 3
+
+# Минимальное количество полей
+var minPlate = 2
+
+# Максимальное количество полей
+var maxPlate = 6
 
 var LevelsCount = 2
 

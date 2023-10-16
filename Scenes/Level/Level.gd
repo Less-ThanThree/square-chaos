@@ -24,12 +24,12 @@ var matrixTemplateX4 = [
 ]
 
 func _ready():
-	generateLevel(PlayerStatus.currentSize, 2, 6)
+	generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
 
 func _process(delta):
 	if PlayerStatus.getCompareMatrix():
 		freeLevel()
-		generateLevel(PlayerStatus.currentSize, 2, 6)
+		generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
 
 # Генерация матрицы для уровня levelSize: размер матрицы, 
 # maxPlate: максимальное количество полей
