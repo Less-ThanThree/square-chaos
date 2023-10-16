@@ -23,18 +23,18 @@ var matrixTemplateX4 = [
 	[0,0,0,0],
 ]
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	generateLevel(PlayerStatus.currentSize, 6)
+	generateLevel(PlayerStatus.currentSize, 2, 6)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if PlayerStatus.getCompareMatrix():
 		freeLevel()
-		generateLevel(PlayerStatus.currentSize, 6)
+		generateLevel(PlayerStatus.currentSize, 2, 6)
 
-# Генерация матрицы для уровня levelSize: размер матрицы, maxPlate: максимальное количество полей
-func generateLevel(levelSize: int, maxPlate: int) -> void:
+# Генерация матрицы для уровня levelSize: размер матрицы, 
+# maxPlate: максимальное количество полей
+# minPlate: минимальное количество полей
+func generateLevel(levelSize: int, minPlate: int, maxPlate: int) -> void:
 	var sumPlate = 0
 	var matrixTemplate: Array
 	
@@ -53,6 +53,14 @@ func generateLevel(levelSize: int, maxPlate: int) -> void:
 			if randi_range(0, 1) == 1 && sumPlate <= maxPlate:
 				matrixTemplate[x][y] = 1
 				sumPlate += 1
+	
+	while sumPlate < minPlate:
+		sumPlate = 0
+		for x in matrixTemplate.size():
+			for y in matrixTemplate[x].size():
+				if randi_range(0, 1) == 1 && sumPlate <= maxPlate:
+					matrixTemplate[x][y] = 1
+					sumPlate += 1
 	
 	PlayerStatus.addField([matrixTemplate])
 	

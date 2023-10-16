@@ -2,7 +2,6 @@ extends Control
 
 @onready var plate = load("res://Scenes/Plates/Plate.tscn")
 @onready var gridLevel = $GridContainer
-var arrayPlateIndexs = []
 var allLevelsGenerate = 0
 
 func _ready():

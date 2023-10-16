@@ -27,7 +27,7 @@ func generatePlayerMatrix(size: int) -> void:
 		4:
 			PlayerStatus.setPlayerLevelField(matrixTemplateX4.duplicate(true))
 
-func generateMatrix(size: int, maxGeneratePlate: int, field: int) -> Array:
+func generateMatrix(size: int, minGeneratePlate: int, maxGeneratePlate: int, field: int) -> Array:
 	var sumPlate = 0
 	var matrixTemplate: Array
 	
@@ -40,11 +40,18 @@ func generateMatrix(size: int, maxGeneratePlate: int, field: int) -> Array:
 			matrixTemplate = matrixTemplateX4.duplicate(true)
 	
 	for x in matrixTemplate.size():
-		var plateInRow = randi_range(0, matrixTemplate.size())
 		for y in matrixTemplate[x].size():
 			if randi_range(0, 1) == 1 && sumPlate <= maxGeneratePlate:
 				matrixTemplate[x][y] = 1
 				sumPlate += 1
+	
+	while sumPlate < minGeneratePlate:
+		sumPlate = 0
+		for x in matrixTemplate.size():
+			for y in matrixTemplate[x].size():
+				if randi_range(0, 1) == 1 && sumPlate <= maxGeneratePlate:
+					matrixTemplate[x][y] = 1
+					sumPlate += 1
 	return matrixTemplate
 	
 # Сравниваем матрицы 
