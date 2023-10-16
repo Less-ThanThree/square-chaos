@@ -18,14 +18,26 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="BoxContainer2" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -344.0
+offset_bottom = -955.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Node2D" parent="BoxContainer2" instance=ExtResource("1_1m7tf")]
+layout_mode = 2
+
 [node name="BoxContainer" type="BoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 16.0
-offset_right = 8.0
-offset_bottom = 16.0
+offset_left = 387.0
+offset_right = 5.0
+offset_bottom = -434.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.978326, 0.467175)
@@ -34,5 +46,7 @@ size_flags_vertical = 3
 [node name="Node2D" parent="BoxContainer" instance=ExtResource("1_1m7tf")]
 layout_mode = 2
 
+[connection signal="compareLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
+[connection signal="readyLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]
 [connection signal="compareLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
 [connection signal="readyLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]
