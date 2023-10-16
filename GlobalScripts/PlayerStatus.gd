@@ -7,13 +7,16 @@ var _currentField: Array = []
 # 2 - 2х2
 # 3 - 3х3
 # 4 - 4х4
-var currentSize = 3
+var currentSize: int = 4
 
 # Минимальное количество полей
-var minPlate = 2
+var minPlate: int = 5
 
 # Максимальное количество полей
-var maxPlate = 6
+var maxPlate: int = 6
+
+# Вес генерации матрицы
+var weightMatrixGenerationSize: float = 0.9
 
 var LevelsCount = 2
 

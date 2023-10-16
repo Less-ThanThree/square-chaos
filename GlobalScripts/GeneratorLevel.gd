@@ -41,15 +41,17 @@ func generateMatrix(size: int, minGeneratePlate: int, maxGeneratePlate: int, fie
 	
 	for x in matrixTemplate.size():
 		for y in matrixTemplate[x].size():
-			if randi_range(0, 1) == 1 && sumPlate <= maxGeneratePlate:
+			if randf_range(0, 1) >= 0.7 && sumPlate <= maxGeneratePlate:
 				matrixTemplate[x][y] = 1
 				sumPlate += 1
 	
 	while sumPlate < minGeneratePlate:
 		sumPlate = 0
+		matrixTemplate.clear()
+		matrixTemplate = []
 		for x in matrixTemplate.size():
 			for y in matrixTemplate[x].size():
-				if randi_range(0, 1) == 1 && sumPlate <= maxGeneratePlate:
+				if randf_range(0, 1) >= 0.7 && sumPlate <= maxGeneratePlate:
 					matrixTemplate[x][y] = 1
 					sumPlate += 1
 	return matrixTemplate

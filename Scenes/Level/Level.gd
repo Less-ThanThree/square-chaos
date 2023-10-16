@@ -52,28 +52,21 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 	var sumPlate = 0
 	var matrixTemplate: Array
 	
-	print("Generate Level")
-	
-	match(levelSize):
-		2:
-			matrixTemplate = matrixTemplateX2.duplicate(true)
-		3:
-			matrixTemplate = matrixTemplateX3.duplicate(true)
-		4:
-			matrixTemplate = matrixTemplateX4.duplicate(true)
+	matrixTemplate = matchMatrix(levelSize)
 	
 	for x in matrixTemplate.size():
 		for y in matrixTemplate[x].size():
-			if randi_range(0, 1) == 1 && sumPlate < maxPlate:
+			if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
 				matrixTemplate[x][y] = 1
 				sumPlate += 1
 	
 	while sumPlate < minPlate:
 		sumPlate = 0
 		matrixTemplate.clear()
+		matrixTemplate = matchMatrix(levelSize)
 		for x in matrixTemplate.size():
 			for y in matrixTemplate[x].size():
-				if randi_range(0, 1) == 1 && sumPlate < maxPlate:
+				if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
 					matrixTemplate[x][y] = 1
 					sumPlate += 1
 	
@@ -89,6 +82,18 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 			if matrixTemplate[x][y] == 1:
 				plate_instance.get_node("ColorRect").set_color(Color(0, 0, 0))
 	readyLevel.emit()
+
+func matchMatrix(sizes: int) -> Array:
+	var matrixTemplate: Array
+	
+	match(sizes):
+		2:
+			matrixTemplate = matrixTemplateX2.duplicate(true)
+		3:
+			matrixTemplate = matrixTemplateX3.duplicate(true)
+		4:
+			matrixTemplate = matrixTemplateX4.duplicate(true)
+	return matrixTemplate
 
 # Очищаем уровень
 func freeLevel():
