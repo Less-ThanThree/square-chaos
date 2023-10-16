@@ -11,7 +11,7 @@
 
 ![BeatChart.png](https://s2.loli.net/2023/10/16/djcV1EN28A5WexX.png)
 
-**ССЫЛКА НА BEAT-CHART:**  **[→ ССЫЛКА ←]()**
+**ССЫЛКА НА BEAT-CHART:**  **[→ ССЫЛКА ←](https://docs.google.com/spreadsheets/d/1mJVV2EKqF-cOemycu8XRlATVJXQGLINtx3vg_SYk1q4/edit#gid=0)**
 
 ### <a id = "СистемаСтадий">  **Система стадий:** </a>
 
