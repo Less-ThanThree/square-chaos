@@ -2,7 +2,6 @@ extends Control
 
 @onready var plate = $ColorRect
 var switch = false
-signal click
 
 func _on_on_click_pressed():
 	var buttonInfo = self.name.split('_', true, 3)
@@ -16,12 +15,11 @@ func _on_on_click_pressed():
 		switch = true
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 1)
 	print("Player Matrix", PlayerStatus.getPlayerLevelField())
-	print("Current Matrix", PlayerStatus.getCurrentLevelField())
-	PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField()))
-	click.emit()
-
-#func _on_on_click_toggled(button_pressed):
-#	if button_pressed: 
-#		plate.set_color(Color(0,0,0))
-#	else: 
-#		plate.set_color(Color(1,1,1))
+	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
+	print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
+	if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0),PlayerStatus.getPlayerLevelField())):
+		print('Compare 1')
+		PlayerStatus.setCurrentLevelField()
+	elif PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
+		print("Compare 2")
+		PlayerStatus.setCurrentLevelField()
