@@ -7,10 +7,10 @@ var _currentField: Array = []
 # 2 - 2х2
 # 3 - 3х3
 # 4 - 4х4
-var currentSize: int = 4
+var currentSize: int = 3
 
 # Минимальное количество полей
-var minPlate: int = 5
+var minPlate: int = 3
 
 # Максимальное количество полей
 var maxPlate: int = 6

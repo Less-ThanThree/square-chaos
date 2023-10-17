@@ -1,5 +1,7 @@
 extends Node
 
+var levelsGenerate = 0
+
 var matrixTemplateX2 = [
 	[0,0],
 	[0,0],
@@ -27,7 +29,7 @@ func generatePlayerMatrix(size: int) -> void:
 		4:
 			PlayerStatus.setPlayerLevelField(matrixTemplateX4.duplicate(true))
 
-func generateMatrix(size: int, minGeneratePlate: int, maxGeneratePlate: int, field: int) -> Array:
+func generateMatrix(size: int, minGeneratePlate: int, maxGeneratePlate: int) -> Array:
 	var sumPlate = 0
 	var matrixTemplate: Array
 	
@@ -41,7 +43,7 @@ func generateMatrix(size: int, minGeneratePlate: int, maxGeneratePlate: int, fie
 	
 	for x in matrixTemplate.size():
 		for y in matrixTemplate[x].size():
-			if randf_range(0, 1) >= 0.7 && sumPlate <= maxGeneratePlate:
+			if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate <= maxGeneratePlate:
 				matrixTemplate[x][y] = 1
 				sumPlate += 1
 	
@@ -51,9 +53,11 @@ func generateMatrix(size: int, minGeneratePlate: int, maxGeneratePlate: int, fie
 		matrixTemplate = []
 		for x in matrixTemplate.size():
 			for y in matrixTemplate[x].size():
-				if randf_range(0, 1) >= 0.7 && sumPlate <= maxGeneratePlate:
+				if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate <= maxGeneratePlate:
 					matrixTemplate[x][y] = 1
 					sumPlate += 1
+	levelsGenerate += 1
+	
 	return matrixTemplate
 	
 # Сравниваем матрицы 

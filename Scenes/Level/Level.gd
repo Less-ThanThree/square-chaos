@@ -49,26 +49,19 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 		printerr("MaxPlate или MinPlate не может быть отрицательным числом или нулем ИДИОТ")
 		return null
 	
-	var sumPlate = 0
+#	var sumPlate = 0
 	var matrixTemplate: Array
 	
 	matrixTemplate = matchMatrix(levelSize)
+	matrixTemplate = generateMatrix(matchMatrix(levelSize), minPlate, maxPlate, levelSize)
 	
-	for x in matrixTemplate.size():
-		for y in matrixTemplate[x].size():
-			if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
-				matrixTemplate[x][y] = 1
-				sumPlate += 1
+	GeneratorLevel.levelsGenerate += 1
 	
-	while sumPlate < minPlate:
-		sumPlate = 0
-		matrixTemplate.clear()
-		matrixTemplate = matchMatrix(levelSize)
-		for x in matrixTemplate.size():
-			for y in matrixTemplate[x].size():
-				if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
-					matrixTemplate[x][y] = 1
-					sumPlate += 1
+	if GeneratorLevel.levelsGenerate == PlayerStatus.LevelsCount:
+		while PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0), matrixTemplate)):
+				matrixTemplate = generateMatrix(matchMatrix(levelSize), minPlate, maxPlate, levelSize)
+				print("Regenerate matrix")
+		GeneratorLevel.levelsGenerate = 0
 	
 	PlayerStatus.addField([matrixTemplate])
 	
@@ -93,6 +86,26 @@ func matchMatrix(sizes: int) -> Array:
 			matrixTemplate = matrixTemplateX3.duplicate(true)
 		4:
 			matrixTemplate = matrixTemplateX4.duplicate(true)
+	return matrixTemplate
+
+func generateMatrix(matrixTemplate: Array, minPlate: int, maxPlate: int, levelSize: int):
+	var sumPlate = 0
+
+	for x in matrixTemplate.size():
+		for y in matrixTemplate[x].size():
+			if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
+				matrixTemplate[x][y] = 1
+				sumPlate += 1
+
+	while sumPlate < minPlate:
+		sumPlate = 0
+		matrixTemplate.clear()
+		matrixTemplate = matchMatrix(levelSize)
+		for x in matrixTemplate.size():
+				for y in matrixTemplate[x].size():
+					if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
+						matrixTemplate[x][y] = 1
+						sumPlate += 1
 	return matrixTemplate
 
 # Очищаем уровень
