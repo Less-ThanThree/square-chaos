@@ -1,35 +1,112 @@
 extends Control
 
-#@onready var containerBox = $BoxContainer
 @onready var plate = load("res://Scenes/Plates/PlateDefault.tscn")
 @onready var gridLevel = $GridContainer
 signal readyLevel
 signal compareLevel
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	generateLevel(3, 6)
+var matrixTemplateX2 = [
+	[0,0],
+	[0,0],
+]
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+var matrixTemplateX3 = [
+	[0,0,0],
+	[0,0,0],
+	[0,0,0],
+]
+
+var matrixTemplateX4 = [
+	[0,0,0,0],
+	[0,0,0,0],
+	[0,0,0,0],
+	[0,0,0,0],
+]
+
+func _ready():
+	generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
+
 func _process(delta):
 	if PlayerStatus.getCompareMatrix():
 		freeLevel()
-		generateLevel(3, 6)
+		generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
 
-# Генерация матрицы для уровня levelSize: размер матрицы, maxPlate: максимальное количество полей
-func generateLevel(levelSize: int, maxPlate: int) -> void:
-	var matrixLevel = GeneratorLevel.generateMatrixLevel(levelSize, maxPlate)
+# Генерация матрицы для уровня levelSize: размер матрицы, 
+# maxPlate: максимальное количество полей
+# minPlate: минимальное количество полей
+func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
+	
+	if minPlate > maxPlate:
+		printerr("MinPlate не может быть больше MaxPlate ИДИОТ")
+		return null
+	if maxPlate >= (levelSize * levelSize ):
+		printerr("MaxPlate не может быть больше или равен размеру матрицы ИДИОТ")
+		return null
+	if levelSize <= 1 || levelSize >= 5: 
+		printerr("Размер матрицы за переделами значений 2 - 4 ИДИОТ")
+		return null
+	if maxPlate <= 0 || minPlate <= 0:
+		printerr("MaxPlate или MinPlate не может быть отрицательным числом или нулем ИДИОТ")
+		return null
+	
+#	var sumPlate = 0
+	var matrixTemplate: Array
+	
+	matrixTemplate = matchMatrix(levelSize)
+	matrixTemplate = generateMatrix(matchMatrix(levelSize), minPlate, maxPlate, levelSize)
+	
+	GeneratorLevel.levelsGenerate += 1
+	
+	if GeneratorLevel.levelsGenerate == PlayerStatus.LevelsCount:
+		while PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0), matrixTemplate)):
+				matrixTemplate = generateMatrix(matchMatrix(levelSize), minPlate, maxPlate, levelSize)
+				print("Regenerate matrix")
+		GeneratorLevel.levelsGenerate = 0
+	
+	PlayerStatus.addField([matrixTemplate])
 	
 	gridLevel.set_columns(levelSize)
 	
-	for x in matrixLevel.size():
-		for y in matrixLevel[x].size():
+	for x in matrixTemplate.size():
+		for y in matrixTemplate[x].size():
 			var plate_instance = plate.instantiate()
 			plate_instance.set_name("plate")
 			gridLevel.add_child(plate_instance)
-			if matrixLevel[x][y] == 1:
+			if matrixTemplate[x][y] == 1:
 				plate_instance.get_node("ColorRect").set_color(Color(0, 0, 0))
 	readyLevel.emit()
+
+func matchMatrix(sizes: int) -> Array:
+	var matrixTemplate: Array
+	
+	match(sizes):
+		2:
+			matrixTemplate = matrixTemplateX2.duplicate(true)
+		3:
+			matrixTemplate = matrixTemplateX3.duplicate(true)
+		4:
+			matrixTemplate = matrixTemplateX4.duplicate(true)
+	return matrixTemplate
+
+func generateMatrix(matrixTemplate: Array, minPlate: int, maxPlate: int, levelSize: int):
+	var sumPlate = 0
+
+	for x in matrixTemplate.size():
+		for y in matrixTemplate[x].size():
+			if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
+				matrixTemplate[x][y] = 1
+				sumPlate += 1
+
+	while sumPlate < minPlate:
+		sumPlate = 0
+		matrixTemplate.clear()
+		matrixTemplate = matchMatrix(levelSize)
+		for x in matrixTemplate.size():
+				for y in matrixTemplate[x].size():
+					if randf_range(0, 1) >= PlayerStatus.weightMatrixGenerationSize && sumPlate < maxPlate:
+						matrixTemplate[x][y] = 1
+						sumPlate += 1
+	return matrixTemplate
 
 # Очищаем уровень
 func freeLevel():
