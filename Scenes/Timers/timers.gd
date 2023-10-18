@@ -2,12 +2,8 @@ extends Node
 
 const local_wait_time = 5 # in sec
 
-# Эвент изменения общего таймера
-signal change_global_timer
 # Эвент окончания общего таймера
 signal global_timer_timeout
-
-signal refresh_local_timer
 
 func _ready():
 	self._refresh_global_tm()
@@ -37,6 +33,7 @@ func _on_seconds_tm_timeout():
 		$TimerComponent/Panel/global_tm_label.text = self._convert_time($TimerComponent/global_tm.time_left)
 
 func _resume_global_tm():
+	$TimerComponent/global_tm.paused = false
 	$TimerComponent/global_tm.start()
 	
 # Обновляет состояние общего таймера в компоненте
@@ -49,12 +46,14 @@ func _refresh_local_tm(time: int):
 	$TimerComponent/Panel/local_progress.max_value = time
 
 # Эвент изменения значения общего таймера
-func _on_change_global_timer(count: int):
+func change_global_timer(count: int):
+	print("global timer changed to", count)
 	PlayerStatus.setGlobalTimer(count)
 	self._refresh_global_tm()
 	
 # Эвент вызывается когда локальный таймер заканчивается
 func _on_local_tm_timeout():
+	print("local expired")
 	self._resume_global_tm()
 
 
@@ -63,10 +62,15 @@ func _on_global_tm_timeout():
 	self.global_timer_timeout.emit()
 
 # Эвент обновления локального таймера
-func _on_refresh_local_timer(time: int):
+func refresh_local_timer(time: int):
 	$TimerComponent/global_tm.paused = true
 	if($TimerComponent/local_tm.time_left > 0):
-		self.change_global_timer.emit($TimerComponent/local_tm.time_left)
-	$TimerComponent/local_tm.wait_time = time
+		self.change_global_timer($TimerComponent/local_tm.time_left)
+	$TimerComponent/local_tm.wait_time = local_wait_time
 	$TimerComponent/local_tm.start()
 	
+
+
+func _on_node_2d_compare_level():
+	self.refresh_local_timer(local_wait_time)
+

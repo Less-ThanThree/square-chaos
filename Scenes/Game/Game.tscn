@@ -63,6 +63,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [connection signal="compareLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
+[connection signal="compareLevel" from="BoxContainer2/Node2D" to="Timer/TimerComponent" method="_on_node_2d_compare_level"]
 [connection signal="readyLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]
 [connection signal="compareLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
 [connection signal="readyLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]

@@ -97,8 +97,6 @@ text = "Время пазла"
 [node name="global_tm" type="Timer" parent="TimerComponent"]
 one_shot = true
 
-[connection signal="change_global_timer" from="." to="." method="_on_change_global_timer" binds= [0]]
-[connection signal="refresh_local_timer" from="." to="." method="_on_refresh_local_timer" binds= [0]]
 [connection signal="timeout" from="TimerComponent/local_tm" to="." method="_on_local_tm_timeout"]
 [connection signal="timeout" from="TimerComponent/tick_tm" to="." method="_on_seconds_tm_timeout"]
 [connection signal="timeout" from="TimerComponent/global_tm" to="." method="_on_global_tm_timeout"]
