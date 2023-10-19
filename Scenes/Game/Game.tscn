@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://diih2muwwdlg"]
+[gd_scene load_steps=4 format=3 uid="uid://diih2muwwdlg"]
 
 [ext_resource type="PackedScene" uid="uid://scgo1kktsoxp" path="res://Scenes/Level/Level.tscn" id="1_1m7tf"]
 [ext_resource type="PackedScene" uid="uid://d3sxwsxiv4typ" path="res://Scenes/Level/LevelPlayer.tscn" id="1_h0tqi"]
+[ext_resource type="PackedScene" uid="uid://dc0j6ufjauf6j" path="res://Scenes/Timers/timers.tscn" id="3_2r3rs"]
 
 [node name="Game" type="Node"]
 
@@ -46,7 +47,23 @@ size_flags_vertical = 3
 [node name="Node2D" parent="BoxContainer" instance=ExtResource("1_1m7tf")]
 layout_mode = 2
 
+[node name="Timer" type="BoxContainer" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -170.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="TimerComponent" parent="Timer" instance=ExtResource("3_2r3rs")]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [connection signal="compareLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
+[connection signal="compareLevel" from="BoxContainer2/Node2D" to="Timer/TimerComponent" method="_on_node_2d_compare_level"]
 [connection signal="readyLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]
 [connection signal="compareLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
 [connection signal="readyLevel" from="BoxContainer/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]
