@@ -30,6 +30,7 @@ func _on_seconds_tm_timeout():
 		$TimerComponent/Panel/local_progress.value = local_wait_time - $TimerComponent/local_tm.time_left
 	
 	if(!$TimerComponent/global_tm.is_stopped() && !$TimerComponent/global_tm.paused):
+		PlayerStatus.setGlobalTimer($TimerComponent/global_tm.time_left)
 		$TimerComponent/Panel/global_tm_label.text = self._convert_time($TimerComponent/global_tm.time_left)
 
 func _resume_global_tm():
@@ -47,8 +48,7 @@ func _refresh_local_tm(time: int):
 
 # Эвент изменения значения общего таймера
 func change_global_timer(count: int):
-	print("global timer changed to", count)
-	PlayerStatus.setGlobalTimer(count)
+	PlayerStatus.changeGlobalTimer(count)
 	self._refresh_global_tm()
 	
 # Эвент вызывается когда локальный таймер заканчивается

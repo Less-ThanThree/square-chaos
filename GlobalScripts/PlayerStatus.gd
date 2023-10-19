@@ -61,8 +61,11 @@ func setCompareMatrix(isCompare: bool):
 func getCompareMatrix() -> bool:
 	return _matrixCompare
 
-func setGlobalTimer(count: int) -> void:
+func changeGlobalTimer(count: int) -> void:
 	_global_timer += count
+	
+func setGlobalTimer(time: int) -> void:
+	_global_timer = time
 	
 func getGlobalTimer() -> int:
 	return _global_timer
