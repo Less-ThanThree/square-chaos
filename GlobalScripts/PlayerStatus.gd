@@ -30,7 +30,7 @@ var _readyLevel: bool = false : set = setReadyLevel, get = getReadyLevel
 var _matrixCompare: bool = false : set = setCompareMatrix, get = getCompareMatrix
 
 # Общий таймер ( в секундах )
-var _global_timer: int = 120 : set = setGlobalTimer, get = getGlobalTimer
+var _global_timer: float = 120 : set = setGlobalTimer, get = getGlobalTimer
 
 
 func setCurrentLevelField() -> void:
@@ -61,8 +61,11 @@ func setCompareMatrix(isCompare: bool):
 func getCompareMatrix() -> bool:
 	return _matrixCompare
 
-func setGlobalTimer(count: int) -> void:
+func changeGlobalTimer(count: float) -> void:
 	_global_timer += count
 	
-func getGlobalTimer() -> int:
+func setGlobalTimer(time: float) -> void:
+	_global_timer = time
+	
+func getGlobalTimer() -> float:
 	return _global_timer
