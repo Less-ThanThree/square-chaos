@@ -48,11 +48,11 @@ func _refresh_local_tm(time: float):
 
 # Эвент изменения значения общего таймера
 func change_global_timer(count: float):
-	PlayerStatus.changeGlobalTimer(count)
 	self._refresh_global_tm()
 	
 # Эвент вызывается когда локальный таймер заканчивается
 func _on_local_tm_timeout():
+	self._refresh_global_tm()
 	self._resume_global_tm()
 
 # Эвент вызывается когда общий таймер заканчивается
@@ -67,8 +67,6 @@ func refresh_local_timer(time: float):
 	$TimerComponent/local_tm.wait_time = local_wait_time
 	$TimerComponent/local_tm.start()
 	
-
-
 func _on_node_2d_compare_level():
 	self.refresh_local_timer(local_wait_time)
 
