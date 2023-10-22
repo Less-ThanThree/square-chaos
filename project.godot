@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 DeviceInfo="*res://GlobalScripts/DeviceInfo.gd"
 GeneratorLevel="*res://GlobalScripts/GeneratorLevel.gd"
 PlayerStatus="*res://GlobalScripts/PlayerStatus.gd"
+ProbabilityBank="*res://GlobalScripts/ProbabilityBank.gd"
 
 [display]
 

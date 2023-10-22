@@ -49,7 +49,6 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 		printerr("MaxPlate или MinPlate не может быть отрицательным числом или нулем ИДИОТ")
 		return null
 	
-#	var sumPlate = 0
 	var matrixTemplate: Array
 	
 	matrixTemplate = matchMatrix(levelSize)
@@ -74,6 +73,8 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 			gridLevel.add_child(plate_instance)
 			if matrixTemplate[x][y] == 1:
 				plate_instance.get_node("ColorRect").set_color(Color(0, 0, 0))
+				
+	ProbabilityBank.rollBuff()
 	readyLevel.emit()
 
 func matchMatrix(sizes: int) -> Array:
