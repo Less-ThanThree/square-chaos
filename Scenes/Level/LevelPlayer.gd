@@ -28,6 +28,8 @@ func _on_node_2d_ready_level():
 	if PlayerStatus.LevelsCount == allLevelsGenerate:
 		allLevelsGenerate = 0
 		PlayerStatus.setCompareMatrix(false)
+		addPoints()
+		checkStage()
 
 func _on_node_2d_compare_level():
 	for node in gridLevel.get_children():
@@ -35,4 +37,23 @@ func _on_node_2d_compare_level():
 		node.queue_free()
 	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
 	generateLevel(PlayerStatus.getPlayerLevelField())
+
+func checkStage():
+	var previosStage = PlayerStatus.getPreviosStage()
+	var nextStage = PlayerStatus.getNextStage()
+	var currentPlayerPoints = PlayerStatus.getPlayerPoints()
 	
+	if currentPlayerPoints > nextStage["PointsStage"]:
+		PlayerStatus.setCurrentPlayerStage(PlayerStatus.getCurrentPlayerStage() + 1)
+	elif currentPlayerPoints < nextStage["PointsStage"]:
+		PlayerStatus.setCurrentStage(PlayerStatus.getCurrentPlayerStage() - 1)
+	
+	PlayerStatus.setCurrentStage(PlayerStatus.getCurrentPlayerStage())
+	PlayerStatus.setNextStage()
+	PlayerStatus.setPreviosStage()
+	
+	print("CurrentStage: ", PlayerStatus.getCurrentPlayerStage())
+
+func addPoints():
+	var currentStage = PlayerStatus.getCurrentStage()
+	PlayerStatus.setPlayerPointsPlus(currentStage["PointsPerPasle"])

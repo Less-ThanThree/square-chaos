@@ -1,11 +1,15 @@
 extends Node
 
-const local_wait_time = 5 # in sec
+var local_wait_time = 5 # in sec
 
 # Эвент окончания общего таймера
 signal global_timer_timeout
 
 func _ready():
+	var currentStage = PlayerStatus.getCurrentStage()
+	
+	local_wait_time = currentStage["TimePasle"]
+	
 	self._refresh_global_tm()
 	self._refresh_local_tm(local_wait_time)
 	
@@ -68,5 +72,8 @@ func refresh_local_timer(time: float):
 	$TimerComponent/local_tm.start()
 	
 func _on_node_2d_compare_level():
+	var currentStage = PlayerStatus.getCurrentStage()
+	local_wait_time = currentStage["TimePasle"]
+	
 	self.refresh_local_timer(local_wait_time)
 
