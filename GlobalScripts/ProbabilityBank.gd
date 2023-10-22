@@ -219,13 +219,24 @@ func rollBuff():
 		if currentBuffId == -1:
 			print("Error")
 		else:
-			print("Current Buff", self.buffs[currentBuffId])
+			print("Current Buff: %s" % self.buffs[currentBuffId]["Name"])
+			print("Weight: %10.2f" % self.buffs[currentBuffId]["W"])
+			print("Multiple: %8.2f" % self.buffs[currentBuffId]["M"])
+			print("Counter: %6d" % self.buffs[currentBuffId]["C"])
+			print("Max: %10d" % self.buffs[currentBuffId]["Max"])
+			return [currentBuffId, StateBuff.BUFF]
 	else:
 		currentBuffId = chooseBuff(StateBuff.DEBUFF, self.debuffs.size())
 		if currentBuffId == -1:
 			print("Error")
 		else:
-			print("Current Debuff", self.debuffs[currentBuffId])
+			print("Current Debuff: %s" % self.debuffs[currentBuffId]["Name"])
+			print("Weight: %10.2f" % self.debuffs[currentBuffId]["W"])
+			print("Multiple: %8.2f" % self.debuffs[currentBuffId]["M"])
+			print("Counter: %6d" % self.debuffs[currentBuffId]["C"])
+			print("Max: %10d" % self.debuffs[currentBuffId]["Max"])
+			return [currentBuffId, StateBuff.DEBUFF]
+	return -1
 
 # Выбор бафа/дебафа на основе вероятностей
 func chooseBuff(type: int, size: int) -> int:

@@ -2,6 +2,8 @@ extends Control
 
 @onready var plate = load("res://Scenes/Plates/PlateDefault.tscn")
 @onready var gridLevel = $GridContainer
+@onready var colorBuff = $ContainerBuff/ColorBuff
+@onready var buffLabel = $ContainerBuff/ColorBuff/LabelBuff
 signal readyLevel
 signal compareLevel
 
@@ -35,6 +37,7 @@ func _process(delta):
 # maxPlate: максимальное количество полей
 # minPlate: минимальное количество полей
 func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
+	var buffState: Array
 	
 	if minPlate > maxPlate:
 		printerr("MinPlate не может быть больше MaxPlate ИДИОТ")
@@ -74,7 +77,8 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 			if matrixTemplate[x][y] == 1:
 				plate_instance.get_node("ColorRect").set_color(Color(0, 0, 0))
 				
-	ProbabilityBank.rollBuff()
+	buffState = ProbabilityBank.rollBuff()
+	setBuff(buffState[0], buffState[1])
 	readyLevel.emit()
 
 func matchMatrix(sizes: int) -> Array:
@@ -115,3 +119,11 @@ func freeLevel():
 		gridLevel.remove_child(node)
 		node.queue_free()
 	compareLevel.emit()
+
+func setBuff(idBuff: int, type: int) -> void:
+	if type == ProbabilityBank.StateBuff.BUFF:
+		colorBuff.set_color(Color(0, 0.804, 0.18))
+		buffLabel.text = ProbabilityBank.buffs[idBuff]["Name"]
+	elif type == ProbabilityBank.StateBuff.DEBUFF:
+		colorBuff.set_color(Color(0.743, 0, 0.127))
+		buffLabel.text = ProbabilityBank.debuffs[idBuff]["Name"]
