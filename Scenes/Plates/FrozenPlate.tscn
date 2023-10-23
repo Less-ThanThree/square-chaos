@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce5t703o5c5h0"]
+
+[ext_resource type="Script" path="res://Scenes/Plates/FrozenPlate.gd" id="1_wokg6"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_wokg6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00204, 1)
+
+[node name="onClick" type="Button" parent="."]
+visibility_layer = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+action_mode = 0
+flat = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+
+[connection signal="button_down" from="onClick" to="." method="_on_on_click_button_down"]
+[connection signal="button_up" from="onClick" to="." method="_on_on_click_button_up"]
+[connection signal="pressed" from="onClick" to="." method="_on_on_click_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
