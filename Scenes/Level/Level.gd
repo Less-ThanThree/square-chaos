@@ -31,6 +31,9 @@ func _ready():
 func _process(delta):
 	if PlayerStatus.getCompareMatrix():
 		freeLevel()
+		var currentStage = PlayerStatus.getCurrentStage()
+		if currentStage["LevelSize"] != 0:
+			PlayerStatus.currentSize = currentStage["LevelSize"]
 		generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
 
 # Генерация матрицы для уровня levelSize: размер матрицы, 
@@ -44,6 +47,7 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 		return null
 	if maxPlate >= (levelSize * levelSize ):
 		printerr("MaxPlate не может быть больше или равен размеру матрицы ИДИОТ")
+		print("LevelSize: ", levelSize)
 		return null
 	if levelSize <= 1 || levelSize >= 5: 
 		printerr("Размер матрицы за переделами значений 2 - 4 ИДИОТ")

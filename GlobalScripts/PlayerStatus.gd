@@ -5,6 +5,7 @@ func _ready():
 	self._previosStage = _playerStage[_currentPlayerStage - 1]
 	self._nextStage = _playerStage[_currentPlayerStage + 1]
 	self._stage = _playerStage[_currentPlayerStage]
+	self.currentSize = self._stage["LevelSize"]
 
 # Матрица для текущего уровня
 var _currentField: Array = []
@@ -124,7 +125,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 8.5,
 		"MultiPlePointsPerSecond": 21.25,
 		"PointsPerPasle": 425,
-		"LevelSize": self.currentSize,
+		"LevelSize": 0,
 		"PlatesBuff": range(2, self.getPlayerLevelField().size()),
 		"PlatesDebuff": range(1, self.getPlayerLevelField().size()),
 		"Path": true,
@@ -137,7 +138,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 10.5,
 		"MultiPlePointsPerSecond": 26.25,
 		"PointsPerPasle": 525,
-		"LevelSize": self.currentSize,
+		"LevelSize": 0,
 		"PlatesBuff": range(2, self.getPlayerLevelField().size()),
 		"PlatesDebuff": range(1, self.getPlayerLevelField().size()),
 		"Path": true,
@@ -150,7 +151,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 18.0,
 		"MultiPlePointsPerSecond": 45.0,
 		"PointsPerPasle": 900,
-		"LevelSize": self.currentSize,
+		"LevelSize": 0,
 		"PlatesBuff": range(3, self.getPlayerLevelField().size()),
 		"PlatesDebuff": range(2, self.getPlayerLevelField().size()),
 		"Path": true,
@@ -163,7 +164,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 28.0,
 		"MultiPlePointsPerSecond": 70.0,
 		"PointsPerPasle": 1400,
-		"LevelSize": self.currentSize,
+		"LevelSize": 0,
 		"PlatesBuff": range(4, self.getPlayerLevelField().size()),
 		"PlatesDebuff": range(3, self.getPlayerLevelField().size()),
 		"Path": true,
@@ -176,7 +177,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 30.0,
 		"MultiPlePointsPerSecond": 75.0,
 		"PointsPerPasle": 1500,
-		"LevelSize": self.currentSize,
+		"LevelSize": 0,
 		"PlatesBuff": range(4, self.getPlayerLevelField().size()),
 		"PlatesDebuff": range(3, self.getPlayerLevelField().size()),
 		"Path": true,
@@ -189,7 +190,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 40.0,
 		"MultiPlePointsPerSecond": 100.0,
 		"PointsPerPasle": 2000,
-		"LevelSize": self.currentSize,
+		"LevelSize": 0,
 		"PlatesBuff": range(4, self.getPlayerLevelField().size()),
 		"PlatesDebuff": range(3, self.getPlayerLevelField().size()),
 		"Path": true,

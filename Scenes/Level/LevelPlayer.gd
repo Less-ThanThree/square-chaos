@@ -35,6 +35,10 @@ func _on_node_2d_compare_level():
 	for node in gridLevel.get_children():
 		gridLevel.remove_child(node)
 		node.queue_free()
+		
+	var currentStage = PlayerStatus.getCurrentStage()
+	if currentStage["LevelSize"] != 0:
+		PlayerStatus.currentSize = currentStage["LevelSize"]
 	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
 	generateLevel(PlayerStatus.getPlayerLevelField())
 
