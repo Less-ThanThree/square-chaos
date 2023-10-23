@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk8qsqpqgrnf5"]
+
+[ext_resource type="Script" path="res://Scenes/Plates/ProtectedPlate.gd" id="1_g0e0q"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_g0e0q")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00204, 1)
+
+[node name="onClick" type="Button" parent="."]
+visibility_layer = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+action_mode = 0
+flat = true
+
+[connection signal="pressed" from="onClick" to="." method="_on_on_click_pressed"]
