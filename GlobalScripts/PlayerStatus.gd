@@ -1,5 +1,6 @@
 extends Node
 
+# Инициализиурем стадию при с
 func _ready():
 	self._previosStage = _playerStage[_currentPlayerStage - 1]
 	self._nextStage = _playerStage[_currentPlayerStage + 1]

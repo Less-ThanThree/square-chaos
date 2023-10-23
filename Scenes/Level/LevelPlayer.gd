@@ -38,6 +38,7 @@ func _on_node_2d_compare_level():
 	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
 	generateLevel(PlayerStatus.getPlayerLevelField())
 
+# Проверка перехода стадии
 func checkStage():
 	var previosStage = PlayerStatus.getPreviosStage()
 	var nextStage = PlayerStatus.getNextStage()
@@ -46,8 +47,8 @@ func checkStage():
 	
 	if currentPlayerPoints > nextStage["PointsStage"]:
 		PlayerStatus.setCurrentPlayerStage(PlayerStatus.getCurrentPlayerStage() + 1)
-	elif currentPlayerPoints < nextStage["PointsStage"]:
-		PlayerStatus.setCurrentStage(PlayerStatus.getCurrentPlayerStage() - 1)
+	elif currentPlayerPoints < previosStage["PointsStage"]:
+		PlayerStatus.setCurrentPlayerStage(PlayerStatus.getCurrentPlayerStage() - 1)
 	
 	PlayerStatus.setCurrentStage(PlayerStatus.getCurrentPlayerStage())
 	PlayerStatus.setNextStage()
