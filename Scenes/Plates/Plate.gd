@@ -16,10 +16,12 @@ func _on_on_click_pressed():
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 1)
 	print("Player Matrix", PlayerStatus.getPlayerLevelField())
 	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
-	print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
+	if PlayerStatus.LevelsCount >= 2:
+		print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
 	if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0),PlayerStatus.getPlayerLevelField())):
 		print('Compare 1')
 		PlayerStatus.setCurrentLevelField()
-	elif PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
-		print("Compare 2")
-		PlayerStatus.setCurrentLevelField()
+	elif PlayerStatus.LevelsCount >= 2:
+		if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
+			print("Compare 2")
+			PlayerStatus.setCurrentLevelField()

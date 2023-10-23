@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3itneq8ovm7f"]
+
+[ext_resource type="PackedScene" uid="uid://d3sxwsxiv4typ" path="res://Scenes/Level/LevelPlayer.tscn" id="1_aqovt"]
+[ext_resource type="PackedScene" uid="uid://scgo1kktsoxp" path="res://Scenes/Level/Level.tscn" id="2_08xst"]
+[ext_resource type="PackedScene" uid="uid://dc0j6ufjauf6j" path="res://Scenes/Timers/timers.tscn" id="3_162tj"]
+[ext_resource type="PackedScene" uid="uid://bc6xvon0xkp0j" path="res://Scenes/Points/Points.tscn" id="4_qmagp"]
+
+[node name="GameWithPath" type="Node"]
+
+[node name="BoxContainerPlayer" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 749.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="LevelPlayer" parent="BoxContainerPlayer" instance=ExtResource("1_aqovt")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BoxContainer3" type="BoxContainer" parent="."]
+offset_left = 384.0
+offset_right = 720.0
+offset_bottom = 485.0
+size_flags_vertical = 3
+
+[node name="Node2D" parent="BoxContainer3" instance=ExtResource("2_08xst")]
+layout_mode = 2
+
+[node name="BoxContainer2" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -384.0
+offset_bottom = -955.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Node2D" parent="BoxContainer2" instance=ExtResource("2_08xst")]
+layout_mode = 2
+
+[node name="Timer" type="BoxContainer" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -170.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="TimerComponent" parent="Timer" instance=ExtResource("3_162tj")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Points" type="BoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -96.0
+offset_right = 360.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Points" parent="Points" instance=ExtResource("4_qmagp")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="compareLevel" from="BoxContainer3/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
+[connection signal="readyLevel" from="BoxContainer3/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]
+[connection signal="compareLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_compare_level"]
+[connection signal="readyLevel" from="BoxContainer2/Node2D" to="BoxContainerPlayer/LevelPlayer" method="_on_node_2d_ready_level"]

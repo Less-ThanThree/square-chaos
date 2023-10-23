@@ -42,6 +42,7 @@ func checkStage():
 	var previosStage = PlayerStatus.getPreviosStage()
 	var nextStage = PlayerStatus.getNextStage()
 	var currentPlayerPoints = PlayerStatus.getPlayerPoints()
+	var currentStage: Dictionary
 	
 	if currentPlayerPoints > nextStage["PointsStage"]:
 		PlayerStatus.setCurrentPlayerStage(PlayerStatus.getCurrentPlayerStage() + 1)
@@ -53,6 +54,10 @@ func checkStage():
 	PlayerStatus.setPreviosStage()
 	
 	print("CurrentStage: ", PlayerStatus.getCurrentPlayerStage())
+
+	currentStage = PlayerStatus.getCurrentStage()
+	print("Path ", currentStage["Path"])
+	PlayerStatus.setPath(currentStage["Path"])
 
 func addPoints():
 	var currentStage = PlayerStatus.getCurrentStage()

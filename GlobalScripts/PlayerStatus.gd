@@ -218,6 +218,8 @@ var _playerPoints: float = 0.00 : get = getPlayerPoints
 # Стадия игрока
 var _currentPlayerStage: int = 0 : set = setCurrentPlayerStage, get = getCurrentPlayerStage
 
+var _isPath: bool = false : set = setPath, get = getPath
+
 # Предыдущая стадия
 var _previosStage: Dictionary = {}
 
@@ -227,7 +229,8 @@ var _nextStage: Dictionary = {}
 # Текущая стадия
 var _stage: Dictionary = {}
 
-var LevelsCount = 2
+# КОЛИЧЕСТВО УРОВНЕЙ ОЧЕНЬ ВАЖНАЯ ПЕРЕМЕННАЯ!!!!!!!!!!!!!!!! НЕ ТРОЖЬ ВСЕ СЛОМАЕТСЯ!!!!!!!!!
+var LevelsCount = 1
 
 # Матрица игрового поля
 var _playerField: Array = [] : set = setPlayerLevelField, get = getPlayerLevelField
@@ -311,3 +314,9 @@ func setNextStage():
 
 func getNextStage() -> Dictionary:
 	return _nextStage
+
+func setPath(isPath: bool):
+	_isPath = isPath
+
+func getPath() -> bool:
+	return _isPath

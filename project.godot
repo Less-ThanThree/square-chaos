@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Square-chaos"
-run/main_scene="res://Scenes/Game/Game.tscn"
+run/main_scene="res://Scenes/Game/GameNoPath.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 

@@ -59,11 +59,11 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 	
 	GeneratorLevel.levelsGenerate += 1
 	
-	if GeneratorLevel.levelsGenerate == PlayerStatus.LevelsCount:
+	if GeneratorLevel.levelsGenerate >= 2:
 		while PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0), matrixTemplate)):
 				matrixTemplate = generateMatrix(matchMatrix(levelSize), minPlate, maxPlate, levelSize)
 				print("Regenerate matrix")
-		GeneratorLevel.levelsGenerate = 0
+	GeneratorLevel.levelsGenerate = 0
 	
 	PlayerStatus.addField([matrixTemplate])
 	
