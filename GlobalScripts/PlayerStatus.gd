@@ -371,4 +371,4 @@ func getCurrentDebuffStage() -> Array:
 
 func setCurrentDebuffStage(buffs: Array) -> void:
 	_currentDebuffStage.clear()
-	_currentDebuffStage = buffs.duplicate()
+	_currentDebuffStage.append_array(buffs)

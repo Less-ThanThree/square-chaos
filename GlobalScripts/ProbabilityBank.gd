@@ -232,7 +232,7 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 	else:
 		PlayerStatus.setCurrentDebuffStage(createBuffArray(StateBuff.DEBUFF, stageArrayDebuff))
 		print(PlayerStatus.getCurrentDebuffStage())
-		currentBuffId = chooseBuff(StateBuff.DEBUFF, PlayerStatus.getCurrentDebuffStage().size(), PlayerStatus.getCurrentBuffStage())
+		currentBuffId = chooseBuff(StateBuff.DEBUFF, PlayerStatus.getCurrentDebuffStage().size(), PlayerStatus.getCurrentDebuffStage())
 		if currentBuffId == -1:
 			print("Error")
 		else:
