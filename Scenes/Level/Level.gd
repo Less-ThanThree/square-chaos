@@ -35,7 +35,7 @@ func _ready():
 	if (PlayerStatus.getPath()):
 		colorBuff.visible = true
 		
-		buffState = ProbabilityBank.rollBuff()
+		buffState = ProbabilityBank.rollBuff(currentStage["AvalibaleBuffsId"], currentStage["AvalibaleDebuffsId"])
 		setBuff(buffState[0], buffState[1])
 		
 		if (buffState[1] == ProbabilityBank.StateBuff.BUFF):
@@ -55,7 +55,8 @@ func _process(delta):
 		
 		if (PlayerStatus.getPath()):
 			colorBuff.visible = true
-			buffState = ProbabilityBank.rollBuff()
+			
+			buffState = ProbabilityBank.rollBuff(currentStage["AvalibaleBuffsId"], currentStage["AvalibaleDebuffsId"])
 
 			setBuff(buffState[0], buffState[1])
 			

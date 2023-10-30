@@ -10,6 +10,12 @@ func _ready():
 # Матрица для текущего уровня
 var _currentField: Array = []
 
+# Массив бафов для текущей стадии
+var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentBuffStage
+
+# Массив дебаффов для текущей стадии
+var _currentDebuffStage: Array = [] : set = setCurrentDebuffStage, get = getCurrentDebuffStage
+
 # Стадии игры
 var _playerStage: Dictionary = {
 	-3: {
@@ -352,3 +358,17 @@ func setPath(isPath: bool):
 
 func getPath() -> bool:
 	return _isPath
+
+func getCurrentBuffStage() -> Array:
+	return _currentBuffStage
+
+func setCurrentBuffStage(buffs: Array) -> void:
+	_currentBuffStage.clear()
+	_currentBuffStage = buffs.duplicate()
+
+func getCurrentDebuffStage() -> Array:
+	return _currentDebuffStage
+
+func setCurrentDebuffStage(buffs: Array) -> void:
+	_currentDebuffStage.clear()
+	_currentDebuffStage = buffs.duplicate()
