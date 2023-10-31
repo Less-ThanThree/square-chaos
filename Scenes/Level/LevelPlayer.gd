@@ -28,11 +28,42 @@ func _on_node_2d_ready_level():
 	if PlayerStatus.LevelsCount == allLevelsGenerate:
 		allLevelsGenerate = 0
 		PlayerStatus.setCompareMatrix(false)
+		addPoints()
+		checkStage()
 
 func _on_node_2d_compare_level():
 	for node in gridLevel.get_children():
 		gridLevel.remove_child(node)
 		node.queue_free()
+		
+	var currentStage = PlayerStatus.getCurrentStage()
+	if currentStage["LevelSize"] != 0:
+		PlayerStatus.currentSize = currentStage["LevelSize"]
 	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
 	generateLevel(PlayerStatus.getPlayerLevelField())
+
+# Проверка перехода стадии
+func checkStage():
+	var previosStage = PlayerStatus.getPreviosStage()
+	var nextStage = PlayerStatus.getNextStage()
+	var currentPlayerPoints = PlayerStatus.getPlayerPoints()
+	var currentStage: Dictionary
 	
+	if currentPlayerPoints > nextStage["PointsStage"]:
+		PlayerStatus.setCurrentPlayerStage(PlayerStatus.getCurrentPlayerStage() + 1)
+	elif currentPlayerPoints < previosStage["PointsStage"]:
+		PlayerStatus.setCurrentPlayerStage(PlayerStatus.getCurrentPlayerStage() - 1)
+	
+	PlayerStatus.setCurrentStage(PlayerStatus.getCurrentPlayerStage())
+	PlayerStatus.setNextStage()
+	PlayerStatus.setPreviosStage()
+	
+	print("CurrentStage: ", PlayerStatus.getCurrentPlayerStage())
+
+	currentStage = PlayerStatus.getCurrentStage()
+	print("Path ", currentStage["Path"])
+	PlayerStatus.setPath(currentStage["Path"])
+
+func addPoints():
+	var currentStage = PlayerStatus.getCurrentStage()
+	PlayerStatus.setPlayerPointsPlus(currentStage["PointsPerPasle"])

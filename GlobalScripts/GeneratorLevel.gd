@@ -72,4 +72,16 @@ func compareMatrix(matrix1: Array, matrix2: Array) -> bool:
 func updateMatrix(positionX: int, positionY: int, val: int) -> void:
 	var playerMatrix = PlayerStatus.getPlayerLevelField()
 	playerMatrix[positionX][positionY] = val
-	PlayerStatus.setPlayerLevelField(playerMatrix) 
+	PlayerStatus.setPlayerLevelField(playerMatrix)
+
+#func goto_scene(path):
+#	call_deferred('_defferedGotoScene', path)
+#
+#func _defferedGotoScene(path):
+#	current_scene.free()
+#
+#	var scene = ResourceLoader.load(path)
+#	get_tree().get_root().add_child(current_scene)
+#	get_tree().set_current_scene(current_scene)
+	
+	
