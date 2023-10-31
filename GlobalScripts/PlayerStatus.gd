@@ -1,11 +1,23 @@
 extends Node
 
-# Инициализиурем стадию при с
 func _ready():
+	onReadyDefaultSettings()
+
+# Сброс изначальных настроек
+func onReadyDefaultSettings() -> void:
+	self._currentPlayerStage = 0
 	self._previosStage = _playerStage[_currentPlayerStage - 1]
 	self._nextStage = _playerStage[_currentPlayerStage + 1]
 	self._stage = _playerStage[_currentPlayerStage]
 	self.currentSize = self._stage["LevelSize"]
+	self._global_timer = 10
+	self.LevelsCount = 1
+	self._playerPoints = 0.00
+	self._playerField.clear()
+	self._currentField.clear()
+	self._currentBuffStage.clear()
+	self._currentDebuffStage.clear()
+	self._isPath = false
 
 # Матрица для текущего уровня
 var _currentField: Array = []
@@ -291,7 +303,7 @@ var _readyLevel: bool = false : set = setReadyLevel, get = getReadyLevel
 var _matrixCompare: bool = false : set = setCompareMatrix, get = getCompareMatrix
 
 # Общий таймер ( в секундах )
-var _global_timer: float = 120 : set = setGlobalTimer, get = getGlobalTimer
+var _global_timer: float = 10 : set = setGlobalTimer, get = getGlobalTimer
 
 
 func setCurrentLevelField() -> void:

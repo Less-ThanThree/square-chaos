@@ -6,10 +6,12 @@ extends Node
 var currentLevel
 
 func _ready():
+	PlayerStatus.onReadyDefaultSettings()
 	currentLevel = levelNoPath.instantiate()
 	self.add_child(currentLevel)
-	
-	if PlayerStatus.getGlobalTimer() <= 0:
+
+func _process(delta):
+	if PlayerStatus.getGlobalTimer() <= 0.9:
 		get_tree().change_scene_to_file("res://Scenes/Main/EndGame.tscn")
 
 func _on_timer_timeout():
