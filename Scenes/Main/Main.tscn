@@ -54,3 +54,5 @@ offset_right = 98.0
 offset_bottom = 27.84
 grow_horizontal = 2
 text = "Начать Хаос"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_button_pressed"]
