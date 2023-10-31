@@ -17,6 +17,17 @@ var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentB
 var _currentDebuffStage: Array = [] : set = setCurrentDebuffStage, get = getCurrentDebuffStage
 
 # Стадии игры
+# ID - номер стадии
+# PointsStage - количество общих очков для достижерия стадии
+# TimePasle - Время на решение пазла
+# MultiplePoints - Множитель очков НЕ ИСПОЛЬЗУЕТСЯ
+# MultiPlePointsPerSecond - Количество отнимаемых очков каждую секунду
+# PointsPerPasle - Количество очков за решеный пазл
+# LevelSize - значения (2,3,4) размер поля. ЕСЛИ 0 ТО ПОЛЕ БЕРЕТ ПАРАМЕТР ИЗ БАФФОВ И ПРЕДЫДУЩЕЙ СТАДИИ
+# PlatesBuffMin/PlatesBuffMax - Минимальное/Максимальное количество клеток на поле для целевого поля с баффом
+# PlatesDebuffMin/PlatesDebuffMax - Минимальное/Максимальное количество клеток на поле для целевого поля с дебаффом
+# Path - Если true, активен выбор путей, false - только одно целевое поле
+# AvalibaleBuffsId - Массив с id баффов для текущей стадии
 var _playerStage: Dictionary = {
 	-3: {
 		"PointsStage": -300.0,

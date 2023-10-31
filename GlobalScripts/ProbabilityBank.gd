@@ -6,11 +6,17 @@ var chanceBuff = 0.5
 # Шанс выпадения дебаффа
 var chanceDebuff = 0.5
 
+# Состояние баффа/дебаффа
 enum StateBuff {
 	BUFF = 0,
 	DEBUFF = 1,
 }
 
+# Словарь баффа
+# W - Вес
+# M - Множитель уменьшения веса
+# С - Счетчик, изначальное значение 0 НЕ ТРОГАТЬ
+# Max - Счетчик максимума
 var buffs: Dictionary = {
 	0: {
 		"W": 50.0,
@@ -110,6 +116,7 @@ var buffs: Dictionary = {
 	}
 }
 
+# Словарь дебаффа
 var debuffs: Dictionary = {
 	0: {
 		"W": 20.0,
@@ -289,6 +296,7 @@ func updateAfterDrop(idBuff: int, currentArrayBuff: Array) -> void:
 	
 	currentArrayBuff[idBuff]["C"]
 
+# Инициализируем массив баффоф/дебафоф для текущей стадии
 func createBuffArray(type: int, buffIdArray: Array) -> Array:
 	var currentBuff: Array
 	
