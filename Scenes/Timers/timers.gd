@@ -30,6 +30,7 @@ func _convert_time(time: int) -> String:
 
 # Эвент вызывается каждые 0.001sec
 func _on_seconds_tm_timeout():	
+	_refresh_global_tm()
 	if(!$TimerComponent/local_tm.is_stopped()):
 		$TimerComponent/Panel/local_progress.value = local_wait_time - $TimerComponent/local_tm.time_left
 	

@@ -37,6 +37,7 @@ func _ready():
 		
 		buffState = ProbabilityBank.rollBuff(currentStage["AvalibaleBuffsId"], currentStage["AvalibaleDebuffsId"])
 		setBuff(buffState[0], buffState[1])
+		PlayerStatus.setBuffStateCurrentLevel([buffState[0], buffState[1]])
 		
 		if (buffState[1] == ProbabilityBank.StateBuff.BUFF):
 			setPlateSize(currentStage["PlatesBuffMin"], currentStage["PlatesBuffMax"])
@@ -59,6 +60,7 @@ func _process(delta):
 			buffState = ProbabilityBank.rollBuff(currentStage["AvalibaleBuffsId"], currentStage["AvalibaleDebuffsId"])
 
 			setBuff(buffState[0], buffState[1])
+			PlayerStatus.setBuffStateCurrentLevel([buffState[0], buffState[1]])
 			
 			if (buffState[1] == ProbabilityBank.StateBuff.BUFF):
 				setPlateSize(currentStage["PlatesBuffMin"], currentStage["PlatesBuffMax"])

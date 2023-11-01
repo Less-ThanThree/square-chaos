@@ -12,6 +12,47 @@ enum StateBuff {
 	DEBUFF = 1,
 }
 
+enum StateEffect {
+	POINTS = 5,
+}
+
+# Словарь бафф/дебаффов эффекта времени
+var effectTimeBuff: Dictionary = {
+	2: {
+		"time": 5.0,
+	},
+	3: {
+		"time": 5.0,
+	},
+	4: {
+		"time": 5.0,
+	},
+	5: {
+		"time": 5.0,
+	},
+	6: {
+		"time": 5.0,
+	},
+	7: {
+		"time": 5.0,
+	},
+	8: {
+		"time": 5.0,
+	},
+	9: {
+		"time": 5.0,
+	},
+	10: {
+		"time": 5.0,
+	},
+	11: {
+		"time": 5.0,
+	},
+	12: {
+		"time": 5.0,
+	}
+}
+
 # Словарь баффа
 # W - Вес
 # M - Множитель уменьшения веса
@@ -309,3 +350,18 @@ func createBuffArray(type: int, buffIdArray: Array) -> Array:
 			currentBuff.append(debuffs[id])
 	
 	return currentBuff
+
+func effectBuff(buffId: int, type: int) -> void:
+	var stage: Dictionary = PlayerStatus.getCurrentStage()
+
+	match buffId:
+		0:
+			if StateBuff.BUFF == type:
+				PlayerStatus.changeGlobalTimer(effectTimeBuff[PlayerStatus.getCurrentPlayerStage()]["time"])
+			elif StateBuff.DEBUFF == type:
+				PlayerStatus.minusGlobalTimer(effectTimeBuff[PlayerStatus.getCurrentPlayerStage()]["time"])
+		1:
+			if StateBuff.BUFF == type:
+				PlayerStatus.setPlayerPointsPlus(StateEffect.POINTS * stage["MultiplePoints"])
+			elif StateBuff.DEBUFF == type:
+				PlayerStatus.setPlayerPointsMinus(StateEffect.POINTS * stage["MultiplePoints"])

@@ -20,8 +20,17 @@ func _on_on_click_pressed():
 		print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
 	if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0),PlayerStatus.getPlayerLevelField())):
 		print('Compare 1')
+		if PlayerStatus.getPath() == true:
+			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
+			print(currentBuff)
+			ProbabilityBank.effectBuff(currentBuff[2], currentBuff[3])
+			PlayerStatus.clearBuffStateCurrentLevel()
 		PlayerStatus.setCurrentLevelField()
 	elif PlayerStatus.LevelsCount >= 2:
 		if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
+			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
+			print(currentBuff)
+			ProbabilityBank.effectBuff(currentBuff[0], currentBuff[1])
+			PlayerStatus.clearBuffStateCurrentLevel()
 			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()
