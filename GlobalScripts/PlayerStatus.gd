@@ -10,7 +10,7 @@ func onReadyDefaultSettings() -> void:
 	self._nextStage = _playerStage[_currentPlayerStage + 1]
 	self._stage = _playerStage[_currentPlayerStage]
 	self.currentSize = self._stage["LevelSize"]
-	self._global_timer = 120
+	self._global_timer = 400
 	self.LevelsCount = 1
 	self._playerPoints = 0.00
 	self._playerField.clear()
@@ -305,7 +305,7 @@ var _readyLevel: bool = false : set = setReadyLevel, get = getReadyLevel
 var _matrixCompare: bool = false : set = setCompareMatrix, get = getCompareMatrix
 
 # Общий таймер ( в секундах )
-var _global_timer: float = 120 : set = setGlobalTimer, get = getGlobalTimer
+var _global_timer: float = 400 : set = setGlobalTimer, get = getGlobalTimer
 
 
 func setCurrentLevelField() -> void:
@@ -392,17 +392,17 @@ func getCurrentBuffStage() -> Array:
 
 func setCurrentBuffStage(buffs: Array) -> void:
 	_currentBuffStage.clear()
-	_currentBuffStage = buffs.duplicate()
+	_currentBuffStage = buffs.duplicate(true)
 
 func getCurrentDebuffStage() -> Array:
 	return _currentDebuffStage
 
 func setCurrentDebuffStage(buffs: Array) -> void:
 	_currentDebuffStage.clear()
-	_currentDebuffStage.append_array(buffs)
+	_currentDebuffStage = buffs.duplicate(true)
 
 func setBuffStateCurrentLevel(buffs: Array) -> void:
-	_buffStateCurrentLevel.append_array(buffs)
+	_buffStateCurrentLevel.push_back(buffs)
 
 func getBuffStateCurrentLevel() -> Array:
 	return _buffStateCurrentLevel

@@ -53,6 +53,66 @@ var effectTimeBuff: Dictionary = {
 	}
 }
 
+var effectPlateAdd: Dictionary = {
+	4: {
+		"plate": 1,
+	},
+	5: {
+		"plate": 1,
+	},
+	6: {
+		"plate": 1,
+	},
+	7: {
+		"plate": 1,
+	},
+	8: {
+		"plate": 1,
+	},
+	9: {
+		"plate": 1,
+	},
+	10: {
+		"plate": 1,
+	},
+	11: {
+		"plate": 1,
+	},
+	12: {
+		"plate": 1,
+	}
+}
+
+var effectPlateMinus: Dictionary = {
+	4: {
+		"plate": 1,
+	},
+	5: {
+		"plate": 1,
+	},
+	6: {
+		"plate": 1,
+	},
+	7: {
+		"plate": 1,
+	},
+	8: {
+		"plate": 1,
+	},
+	9: {
+		"plate": 1,
+	},
+	10: {
+		"plate": 1,
+	},
+	11: {
+		"plate": 1,
+	},
+	12: {
+		"plate": 1,
+	}
+}
+
 # Словарь баффа
 # W - Вес
 # M - Множитель уменьшения веса
@@ -172,7 +232,7 @@ var debuffs: Dictionary = {
 		"M": 5.0,
 		"C": 0,
 		"Max": 2,
-		"Name": "Минус время",
+		"Name": "Минус очки",
 		"Description": "Убавляет (-) кол-во очков × (Множитель очков) к счётчику очков."
 	},
 	2: {
@@ -265,8 +325,7 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 	
 	if procentBuff > procentDebuff:
 		PlayerStatus.setCurrentBuffStage(createBuffArray(StateBuff.BUFF, stageArrayBuff))
-		print(PlayerStatus.getCurrentBuffStage())
-		print(PlayerStatus.getCurrentBuffStage().size())
+#		var test = PlayerStatus.getCurrentBuffStage()
 		currentBuffId = chooseBuff(StateBuff.BUFF, PlayerStatus.getCurrentBuffStage().size(), PlayerStatus.getCurrentBuffStage())
 		if currentBuffId == -1:
 			print("Error")
@@ -279,6 +338,7 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 			return [currentBuffId, StateBuff.BUFF]
 	else:
 		PlayerStatus.setCurrentDebuffStage(createBuffArray(StateBuff.DEBUFF, stageArrayDebuff))
+#		var test = PlayerStatus.getCurrentDebuffStage()
 		print(PlayerStatus.getCurrentDebuffStage())
 		currentBuffId = chooseBuff(StateBuff.DEBUFF, PlayerStatus.getCurrentDebuffStage().size(), PlayerStatus.getCurrentDebuffStage())
 		if currentBuffId == -1:
@@ -357,11 +417,35 @@ func effectBuff(buffId: int, type: int) -> void:
 	match buffId:
 		0:
 			if StateBuff.BUFF == type:
+				print("EFFECT PLUS TIME")
 				PlayerStatus.changeGlobalTimer(effectTimeBuff[PlayerStatus.getCurrentPlayerStage()]["time"])
 			elif StateBuff.DEBUFF == type:
+				print("EFFECT MINUS TIME")
 				PlayerStatus.minusGlobalTimer(effectTimeBuff[PlayerStatus.getCurrentPlayerStage()]["time"])
 		1:
 			if StateBuff.BUFF == type:
+				print("EFFECT ADD POINTS")
 				PlayerStatus.setPlayerPointsPlus(StateEffect.POINTS * stage["MultiplePoints"])
 			elif StateBuff.DEBUFF == type:
+				print("EFFECT MINUS POINTS")
 				PlayerStatus.setPlayerPointsMinus(StateEffect.POINTS * stage["MultiplePoints"])
+		2:
+			if StateBuff.BUFF == type:
+				print("EFFECT SMALL FIELD SIZE")
+				if PlayerStatus.currentSize > 2:
+					PlayerStatus.currentSize -= 1
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT BIGGER FIELD SIZE")
+				if PlayerStatus.currentSize >= 2 && PlayerStatus.currentSize <= 4:
+					PlayerStatus.currentSize += 1
+		3:
+			pass
+		4:
+			if StateBuff.BUFF == type:
+				print("EFFECT SMALL PLATE")
+				if PlayerStatus.maxPlate > PlayerStatus.minPlate:
+					PlayerStatus.maxPlate -= effectPlateMinus[PlayerStatus.getCurrentPlayerStage()]["plate"]
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT MORE PLATE")
+				if PlayerStatus.maxPlate < ((PlayerStatus.currentSize * 2) - 1):
+					PlayerStatus.maxPlate += effectPlateAdd[PlayerStatus.getCurrentPlayerStage()]["plate"]

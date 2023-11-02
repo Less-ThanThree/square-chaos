@@ -163,10 +163,10 @@ func freeLevel() -> void:
 func setBuff(idBuff: int, type: int) -> void:
 	if type == ProbabilityBank.StateBuff.BUFF:
 		colorBuff.set_color(Color(0, 0.804, 0.18))
-		buffLabel.text = ProbabilityBank.buffs[idBuff]["Name"]
+		buffLabel.text = PlayerStatus.getCurrentBuffStage()[idBuff]["Name"]
 	elif type == ProbabilityBank.StateBuff.DEBUFF:
 		colorBuff.set_color(Color(0.743, 0, 0.127))
-		buffLabel.text = ProbabilityBank.debuffs[idBuff]["Name"]
+		buffLabel.text = PlayerStatus.getCurrentDebuffStage()[idBuff]["Name"]
 
 # Устанавливаем максимальное/минимальное количество полей на уровень
 func setPlateSize(minPlate: int, maxPlate: int) -> void:
