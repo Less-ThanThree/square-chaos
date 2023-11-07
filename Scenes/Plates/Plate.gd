@@ -24,6 +24,8 @@ func _on_on_click_pressed():
 			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
 			print(currentBuff)
 			ProbabilityBank.effectBuff(currentBuff[0][0], currentBuff[0][1])
+			PlayerStatus.setApplyBuffId(currentBuff[0][0])
+			PlayerStatus.setApplyBuffId(currentBuff[0][1])
 			PlayerStatus.clearBuffStateCurrentLevel()
 		PlayerStatus.setCurrentLevelField()
 	elif PlayerStatus.LevelsCount >= 2:
@@ -31,6 +33,8 @@ func _on_on_click_pressed():
 			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
 			print(currentBuff)
 			ProbabilityBank.effectBuff(currentBuff[1][0], currentBuff[1][1])
+			PlayerStatus.setApplyBuffId(currentBuff[1][0])
+			PlayerStatus.setApplyBuffId(currentBuff[1][1])
 			PlayerStatus.clearBuffStateCurrentLevel()
 			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()

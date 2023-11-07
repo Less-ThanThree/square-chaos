@@ -22,7 +22,11 @@ func onReadyDefaultSettings() -> void:
 # Матрица для текущего уровня
 var _currentField: Array = []
 
+# Баффы текущего уровня
 var _buffStateCurrentLevel: Array = [] : set = setBuffStateCurrentLevel, get = getBuffStateCurrentLevel
+
+# Примененный бафф
+var _applyBuffId: Array = [] : set = setApplyBuffId, get = getApplyBuffId
 
 # Массив бафов для текущей стадии
 var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentBuffStage
@@ -409,3 +413,12 @@ func getBuffStateCurrentLevel() -> Array:
 
 func clearBuffStateCurrentLevel() -> void:
 	_buffStateCurrentLevel.clear()
+
+func setApplyBuffId(id) -> void:
+	_applyBuffId.push_back(id)
+
+func getApplyBuffId() -> Array:
+	return _applyBuffId
+
+func clearApplyBuffId() -> void:
+	_applyBuffId.clear()

@@ -28,15 +28,26 @@ func _on_node_2d_ready_level():
 	if PlayerStatus.LevelsCount == allLevelsGenerate:
 		allLevelsGenerate = 0
 		PlayerStatus.setCompareMatrix(false)
-		addPoints()
 		checkStage()
 
 func _on_node_2d_compare_level():
 	for node in gridLevel.get_children():
 		gridLevel.remove_child(node)
 		node.queue_free()
-		
+	
 	var currentStage = PlayerStatus.getCurrentStage()
+	var currentBuff = PlayerStatus.getApplyBuffId()
+	if !currentBuff.is_empty():
+		if currentBuff[0] == 1 && currentBuff[1] == ProbabilityBank.StateBuff.DEBUFF:
+			print("Minus PONINT!!!")
+			minusPoints()
+			PlayerStatus.clearApplyBuffId()
+		else:
+			addPoints()
+			PlayerStatus.clearApplyBuffId()
+	else:
+		addPoints()
+
 	if currentStage["LevelSize"] != 0:
 		PlayerStatus.currentSize = currentStage["LevelSize"]
 	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
@@ -67,3 +78,7 @@ func checkStage():
 func addPoints():
 	var currentStage = PlayerStatus.getCurrentStage()
 	PlayerStatus.setPlayerPointsPlus(currentStage["PointsPerPasle"])
+
+func minusPoints():
+	var currentStage = PlayerStatus.getCurrentStage()
+	PlayerStatus.setPlayerPointsMinus(currentStage["PointsPerPasle"])
