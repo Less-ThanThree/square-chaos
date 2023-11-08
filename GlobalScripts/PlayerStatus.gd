@@ -277,7 +277,7 @@ var minPlate: int = 3
 var maxPlate: int = 6
 
 # Вес генерации матрицы
-var weightMatrixGenerationSize: float = 0.9
+var weightMatrixGenerationSize: float = 0.8
 
 # Очки игрока
 var _playerPoints: float = 0.00 : get = getPlayerPoints

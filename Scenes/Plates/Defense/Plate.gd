@@ -35,27 +35,27 @@ func getPlateActive() -> void:
 		plate.set_color(colorEnd)
 		switch = true
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 1)
-		print("Player Matrix", PlayerStatus.getPlayerLevelField())
-		print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
-		if PlayerStatus.LevelsCount >= 2:
-			print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
-		if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0),PlayerStatus.getPlayerLevelField())):
-			print('Compare 1')
-			if PlayerStatus.getPath() == true:
-				var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
-				print(currentBuff)
-				ProbabilityBank.effectBuff(currentBuff[0][0], currentBuff[0][1])
-				PlayerStatus.setApplyBuffId(currentBuff[0][0])
-				PlayerStatus.setApplyBuffId(currentBuff[0][1])
-				PlayerStatus.clearBuffStateCurrentLevel()
+	print("Player Matrix", PlayerStatus.getPlayerLevelField())
+	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
+	if PlayerStatus.LevelsCount >= 2:
+		print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
+	if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0),PlayerStatus.getPlayerLevelField())):
+		print('Compare 1')
+		if PlayerStatus.getPath() == true:
+			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
+			print(currentBuff)
+			ProbabilityBank.effectBuff(currentBuff[0][0], currentBuff[0][1])
+			PlayerStatus.setApplyBuffId(currentBuff[0][0])
+			PlayerStatus.setApplyBuffId(currentBuff[0][1])
+			PlayerStatus.clearBuffStateCurrentLevel()
+		PlayerStatus.setCurrentLevelField()
+	elif PlayerStatus.LevelsCount >= 2:
+		if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
+			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
+			print(currentBuff)
+			ProbabilityBank.effectBuff(currentBuff[1][0], currentBuff[1][1])
+			PlayerStatus.setApplyBuffId(currentBuff[1][0])
+			PlayerStatus.setApplyBuffId(currentBuff[1][1])
+			PlayerStatus.clearBuffStateCurrentLevel()
+			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()
-		elif PlayerStatus.LevelsCount >= 2:
-			if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
-				var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
-				print(currentBuff)
-				ProbabilityBank.effectBuff(currentBuff[1][0], currentBuff[1][1])
-				PlayerStatus.setApplyBuffId(currentBuff[1][0])
-				PlayerStatus.setApplyBuffId(currentBuff[1][1])
-				PlayerStatus.clearBuffStateCurrentLevel()
-				print("Compare 2")
-				PlayerStatus.setCurrentLevelField()
