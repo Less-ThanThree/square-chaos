@@ -1,6 +1,9 @@
 extends Control
 
 @onready var plate = load("res://Scenes/Plates/Plate.tscn")
+@onready var plateFreeze = load("res://Scenes/Plates/Freeze/Plate.tscn")
+@onready var plateDefense = load("res://Scenes/Plates/Defense/Plate.tscn")
+@onready var plateGold = load("res://Scenes/Plates/Gold/Plate.tscn")
 @onready var gridLevel = $GridContainer
 var allLevelsGenerate = 0
 
@@ -19,7 +22,19 @@ func generateLevel(matrix) -> void:
 		yCounter = -1
 		for y in matrix[x].size():
 			yCounter += 1
-			var plate_instance = plate.instantiate()
+			var plateNumber = randi_range(0, 3)
+			var plate_instance
+	
+			match plateNumber:
+				0:
+					plate_instance = plate.instantiate()
+				1:
+					plate_instance = plateFreeze.instantiate()
+				2:
+					plate_instance = plateDefense.instantiate()
+				3:
+					plate_instance = plateGold.instantiate()
+
 			plate_instance.set_name("plate_{x}_{y}_{val}".format({"x": xCounter, "y": yCounter, "val": matrix[x][y]}))
 			gridLevel.add_child(plate_instance)
 

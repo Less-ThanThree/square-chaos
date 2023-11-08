@@ -8,6 +8,7 @@ var tween: Tween
 var switch: bool 			= false
 var timeWaitTap: float 		= 0.5
 var noMore: bool			= false
+var freezDone: bool			= false
 var isDown: bool			= false
 var colorStart: Color		= Color(0.075, 0.455, 0.894)
 var colorEnd: Color			= Color(0, 0, 0)
@@ -26,10 +27,11 @@ func _ready():
 
 func _process(delta):
 	if noMore:
-		getPlateActive()
+		freezDone = true
 	
 	if isDown && timerTap.is_stopped():
 		noMore = true
+		tween.stop()
 	
 	if !isDown && !timerTap.is_stopped():
 		timerTap.stop()
@@ -38,12 +40,16 @@ func _process(delta):
 
 func _on_on_click_button_down():
 	isDown = true
-	timerTap.start()
-	tween.play()
+	if !freezDone:
+		timerTap.start()
+		tween.play()
 
 func _on_on_click_button_up():
-	isDown = false
-	noMore = false
+	if !freezDone:
+		isDown = false
+		noMore = false
+	else:
+		getPlateActive()
 
 func getPlateActive() -> void:
 	if switch:
