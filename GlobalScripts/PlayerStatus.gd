@@ -18,6 +18,11 @@ func onReadyDefaultSettings() -> void:
 	self._currentBuffStage.clear()
 	self._currentDebuffStage.clear()
 	self._isPath = false
+	ProbabilityBank.chanceBuff = 0.5
+	ProbabilityBank.chanceDebuff = 0.5
+	ProbabilityBank.chanceFreezePlate = 0.35
+	ProbabilityBank.chanceDefensePlate = 0.25
+	ProbabilityBank.chanceGoldPlate = 0.15
 
 # Матрица для текущего уровня
 var _currentField: Array = []

@@ -22,7 +22,8 @@ func generateLevel(matrix) -> void:
 		yCounter = -1
 		for y in matrix[x].size():
 			yCounter += 1
-			var plateNumber = randi_range(0, 3)
+			
+			var plateNumber = getRandomPlate()
 			var plate_instance
 	
 			match plateNumber:
@@ -97,3 +98,20 @@ func addPoints():
 func minusPoints():
 	var currentStage = PlayerStatus.getCurrentStage()
 	PlayerStatus.setPlayerPointsMinus(currentStage["PointsPerPasle"])
+
+func getRandomPlate() -> int:
+	var plateFreeze = randf_range(0, 1)
+	var plateDefense = randf_range(0, 1)
+	var plateGold = randf_range(0, 1)
+	
+	if ProbabilityBank.chanceFreezePlate >= plateFreeze:
+		return 1
+	
+	if ProbabilityBank.chanceDefensePlate >= plateDefense:
+		return 2
+	
+	if ProbabilityBank.chanceGoldPlate >= plateGold:
+		return 3
+	
+	return 0
+	

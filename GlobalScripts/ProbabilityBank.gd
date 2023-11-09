@@ -6,6 +6,15 @@ var chanceBuff = 0.5
 # Шанс выпадения дебаффа
 var chanceDebuff = 0.5
 
+# Шанс выпадения замороженной клетки
+var chanceFreezePlate = 0.05
+
+# Шанс выпадения защищенной клетки
+var chanceDefensePlate = 0.025
+
+# Шанс выпадения золотой клетки
+var chanceGoldPlate = 0.05
+
 # Константа для баффа/дебаффа шанса выпадения
 var PROCENTDBF = 0.25
 
