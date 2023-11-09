@@ -17,6 +17,7 @@ func _process(delta):
 func _on_timer_timeout():
 	if PlayerStatus.getPath():
 		self.remove_child(currentLevel)
+		PlayerStatus.setCurrentLevelField()
 		currentLevel = levelWithPath.instantiate()
 		self.add_child(currentLevel)
 		timer.stop()
