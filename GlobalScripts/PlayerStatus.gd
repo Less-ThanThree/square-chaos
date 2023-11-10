@@ -1,8 +1,5 @@
 extends Node
 
-func _ready():
-	onReadyDefaultSettings()
-
 # Сброс изначальных настроек
 func onReadyDefaultSettings() -> void:
 	self._currentPlayerStage = 0
@@ -10,7 +7,7 @@ func onReadyDefaultSettings() -> void:
 	self._nextStage = _playerStage[_currentPlayerStage + 1]
 	self._stage = _playerStage[_currentPlayerStage]
 	self.currentSize = self._stage["LevelSize"]
-	self._global_timer = 400
+#	self._global_timer = 400
 	self.LevelsCount = 1
 	self._playerPoints = 0.00
 	self._playerField.clear()
@@ -20,9 +17,9 @@ func onReadyDefaultSettings() -> void:
 	self._isPath = false
 	ProbabilityBank.chanceBuff = 0.5
 	ProbabilityBank.chanceDebuff = 0.5
-	ProbabilityBank.chanceFreezePlate = 0.35
-	ProbabilityBank.chanceDefensePlate = 0.25
-	ProbabilityBank.chanceGoldPlate = 0.15
+#	ProbabilityBank.chanceFreezePlate = 0.05
+#	ProbabilityBank.chanceDefensePlate = 0.025
+#	ProbabilityBank.chanceGoldPlate = 0.05
 
 # Матрица для текущего уровня
 var _currentField: Array = []
@@ -154,9 +151,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 10.0,
 		"PointsPerPasle": 200,
 		"LevelSize": 3,
-		"PlatesBuffMin": 2,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 8, 9],
@@ -169,9 +166,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 10.0,
 		"PointsPerPasle": 200,
 		"LevelSize": 4,
-		"PlatesBuffMin": 2,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 5, 8, 9],
@@ -184,9 +181,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 21.25,
 		"PointsPerPasle": 425,
 		"LevelSize": 0,
-		"PlatesBuffMin": 2, 
+		"PlatesBuffMin": 0, 
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 5, 6, 8, 9],
@@ -199,9 +196,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 26.25,
 		"PointsPerPasle": 525,
 		"LevelSize": 0,
-		"PlatesBuffMin": 2,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 5, 6, 7, 8, 9],
@@ -214,9 +211,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 45.0,
 		"PointsPerPasle": 900,
 		"LevelSize": 0,
-		"PlatesBuffMin": 3,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 2,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 5, 6, 7, 8, 9, 10],
@@ -229,9 +226,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 70.0,
 		"PointsPerPasle": 1400,
 		"LevelSize": 0,
-		"PlatesBuffMin": 4,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 3,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -244,9 +241,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 75.0,
 		"PointsPerPasle": 1500,
 		"LevelSize": 0,
-		"PlatesBuffMin": 4,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 3,
+		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -259,10 +256,10 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 100.0,
 		"PointsPerPasle": 2000,
 		"LevelSize": 0,
-		"PlatesBuffMin": 4,
+		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 3,
-		"PlatesDebuffMax": 0,
+		"PlatesDebuffMin": 0,
+		"PlatesDebuffMax":0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 		"AvalibaleDebuffsId": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],

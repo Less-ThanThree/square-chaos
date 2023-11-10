@@ -45,4 +45,21 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Еще раз"
 
+[node name="ToMenu" type="Button" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = 240.0
+offset_right = 112.0
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1.00452)
+text = "Меню"
+
 [connection signal="pressed" from="BoxContainer/ColorRect/ReloadGame" to="." method="_on_reload_game_pressed"]
+[connection signal="pressed" from="BoxContainer/ColorRect/ToMenu" to="." method="_on_to_menu_pressed"]

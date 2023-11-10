@@ -170,9 +170,10 @@ func setBuff(idBuff: int, type: int) -> void:
 
 # Устанавливаем максимальное/минимальное количество полей на уровень
 func setPlateSize(minPlate: int, maxPlate: int) -> void:
-	PlayerStatus.minPlate = minPlate
-	
 	print("MinPlate: ", PlayerStatus.minPlate)
 	print("MaxPlate: ", PlayerStatus.maxPlate)
 	if (maxPlate != 0):
 		PlayerStatus.maxPlate = maxPlate
+	
+	if (minPlate != 0):
+		PlayerStatus.minPlate = minPlate

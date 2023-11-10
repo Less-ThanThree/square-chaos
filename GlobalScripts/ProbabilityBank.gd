@@ -482,10 +482,13 @@ func effectBuff(buffId: int, type: int) -> void:
 				print("EFFECT SMALL PLATE")
 				if PlayerStatus.maxPlate > PlayerStatus.minPlate:
 					PlayerStatus.maxPlate -= effectPlateMinus[PlayerStatus.getCurrentPlayerStage()]["plate"]
+					if PlayerStatus.minPlate > 1:
+						PlayerStatus.minPlate -= 1
 			elif StateBuff.DEBUFF == type:
 				print("EFFECT MORE PLATE")
 				if PlayerStatus.maxPlate < ((PlayerStatus.currentSize * PlayerStatus.currentSize) - 1):
 					PlayerStatus.maxPlate += effectPlateAdd[PlayerStatus.getCurrentPlayerStage()]["plate"]
+					PlayerStatus.minPlate += 1
 					print("check")
 		9:
 			if StateBuff.BUFF == type:
