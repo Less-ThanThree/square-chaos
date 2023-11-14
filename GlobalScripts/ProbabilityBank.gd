@@ -26,6 +26,7 @@ enum StateBuff {
 
 enum StateEffect {
 	POINTS = 5,
+	ERRORPOINTS = 20,
 }
 
 # Словарь бафф/дебаффов эффекта времени
@@ -476,7 +477,12 @@ func effectBuff(buffId: int, type: int) -> void:
 				if PlayerStatus.currentSize >= 2 && PlayerStatus.currentSize <= 4:
 					PlayerStatus.currentSize += 1
 		3:
-			pass
+			if StateBuff.BUFF == type:
+				print("Disable error Plate")
+				PlayerStatus.setIsErrorPlateBuffActive(false)
+			elif StateBuff.DEBUFF == type:
+				print("Active error Plate")
+				PlayerStatus.setIsErrorPlateBuffActive(true)
 		4:
 			if StateBuff.BUFF == type:
 				print("EFFECT SMALL PLATE")

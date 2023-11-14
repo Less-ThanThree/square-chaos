@@ -63,6 +63,13 @@ func getPlateActive() -> void:
 		plate.set_color(colorEnd)
 		switch = true
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 1)
+		
+		if PlayerStatus.getPath() == false && PlayerStatus.getIsErrorPlateBuffActive():
+			PlayerStatus.setIsErrorPlate(isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(0), int(buttonInfo[1]), int(buttonInfo[2])))
+		elif PlayerStatus.getPath() == true && PlayerStatus.getIsErrorPlateBuffActive():
+			if isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(0), int(buttonInfo[1]), int(buttonInfo[2])) && isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(1), int(buttonInfo[1]), int(buttonInfo[2])):
+				PlayerStatus.setIsErrorPlate(true)
+		
 	print("Player Matrix", PlayerStatus.getPlayerLevelField())
 	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
 	if PlayerStatus.LevelsCount >= 2:
@@ -87,3 +94,9 @@ func getPlateActive() -> void:
 			PlayerStatus.clearBuffStateCurrentLevel()
 			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()
+
+func isErrorFieldActive(playerFiled: Array, levelFiled: Array, x: int, y: int) -> bool:
+	if playerFiled[x][y] == 1:
+		if playerFiled[x][y] != levelFiled[x][y]:
+			return true
+	return false

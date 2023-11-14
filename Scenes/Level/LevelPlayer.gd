@@ -6,10 +6,24 @@ extends Control
 @onready var plateGold = load("res://Scenes/Plates/Gold/Plate.tscn")
 @onready var gridLevel = $GridContainer
 var allLevelsGenerate = 0
+var currentStage
 
 func _ready():
 	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
 	generateLevel(PlayerStatus.getPlayerLevelField())
+
+func _process(delta):
+	if PlayerStatus.getIsErrorPlate():
+		PlayerStatus.setIsErrorPlate(false)
+		currentStage = PlayerStatus.getCurrentStage()
+		
+		for node in gridLevel.get_children():
+			gridLevel.remove_child(node)
+			node.queue_free()
+		
+		PlayerStatus.setPlayerPointsMinus(ProbabilityBank.StateEffect.ERRORPOINTS * currentStage["MultiplePoints"])
+		GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
+		generateLevel(PlayerStatus.getPlayerLevelField())
 
 # Генерация поля для игрока
 func generateLevel(matrix) -> void:

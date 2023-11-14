@@ -36,6 +36,9 @@ var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentB
 # Массив дебаффов для текущей стадии
 var _currentDebuffStage: Array = [] : set = setCurrentDebuffStage, get = getCurrentDebuffStage
 
+# Активен ли бафф ошибок
+var _isErrorPlateBuffActive: bool = false : set = setIsErrorPlateBuffActive, get = getIsErrorPlateBuffActive
+
 # Стадии игры
 # ID - номер стадии
 # PointsStage - количество общих очков для достижерия стадии
@@ -126,8 +129,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 4,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8],
-		"AvalibaleDebuffsId": [0, 1, 8],
+		"AvalibaleBuffsId": [0, 1, 8, 3],
+		"AvalibaleDebuffsId": [0, 1, 8, 3],
 	},
 	3: {
 		"PointsStage": 1550.0,
@@ -141,8 +144,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 3, 
 		"PlatesDebuffMax": 5,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8],
-		"AvalibaleDebuffsId": [0, 1, 8],
+		"AvalibaleBuffsId": [0, 1, 8, 3],
+		"AvalibaleDebuffsId": [0, 1, 8, 3],
 	},
 	4: {
 		"PointsStage": 3800.0,
@@ -156,8 +159,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 8, 9],
-		"AvalibaleDebuffsId": [0, 1, 4, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 4, 8, 9, 3],
+		"AvalibaleDebuffsId": [0, 1, 4, 8, 9, 3],
 	},
 	5: {
 		"PointsStage": 8200.0,
@@ -313,6 +316,8 @@ var _matrixCompare: bool = false : set = setCompareMatrix, get = getCompareMatri
 # Общий таймер ( в секундах )
 var _global_timer: float = 400 : set = setGlobalTimer, get = getGlobalTimer
 
+# Включение ошибок на целевом поле
+var _isErrorPlateEnabled: bool = false
 
 func setCurrentLevelField() -> void:
 	_currentField.clear()
@@ -424,3 +429,15 @@ func getApplyBuffId() -> Array:
 
 func clearApplyBuffId() -> void:
 	_applyBuffId.clear()
+
+func setIsErrorPlate(isError: bool) -> void:
+	_isErrorPlateEnabled = isError
+
+func getIsErrorPlate() -> bool:
+	return _isErrorPlateEnabled
+
+func setIsErrorPlateBuffActive(isError: bool) -> void:
+	_isErrorPlateBuffActive = isError
+
+func getIsErrorPlateBuffActive() -> bool:
+	return _isErrorPlateBuffActive

@@ -25,6 +25,11 @@ func _on_on_click_pressed():
 		countClick += 1
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 1)
 		print("Player Matrix", PlayerStatus.getPlayerLevelField())
+		if PlayerStatus.getPath() == false && PlayerStatus.getIsErrorPlateBuffActive():
+			PlayerStatus.setIsErrorPlate(isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(0), int(buttonInfo[1]), int(buttonInfo[2])))
+		elif PlayerStatus.getPath() == true && PlayerStatus.getIsErrorPlateBuffActive():
+			if isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(0), int(buttonInfo[1]), int(buttonInfo[2])) && isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(1), int(buttonInfo[1]), int(buttonInfo[2])):
+				PlayerStatus.setIsErrorPlate(true)
 	
 	if countClick == 1:
 		currentStage = PlayerStatus.getCurrentStage()
@@ -53,3 +58,9 @@ func _on_on_click_pressed():
 			PlayerStatus.clearBuffStateCurrentLevel()
 			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()
+	
+func isErrorFieldActive(playerFiled: Array, levelFiled: Array, x: int, y: int) -> bool:
+	if playerFiled[x][y] == 1:
+		if playerFiled[x][y] != levelFiled[x][y]:
+			return true
+	return false
