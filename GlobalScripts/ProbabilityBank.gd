@@ -491,52 +491,27 @@ func updateBuffException(buffArray: Array, type: int) -> Array:
 		
 		if PlayerStatus.maxPlate == ((PlayerStatus.currentSize * PlayerStatus.currentSize) - 1) && StateBuff.DEBUFF:
 			buffArray.erase(4)
-#		if PlayerStatus.getIsErrorPlateBuffActive() && type == StateBuff.BUFF:
-#			buffArray.erase(3)
-#		elif !PlayerStatus.getIsErrorPlateBuffActive() && type == StateBuff.DEBUFF:
-#			buffArray.erase(3)
+	
+	if buffArray.has(5):
+		if chanceFreezePlate <= 0 && (type == StateBuff.BUFF):
+			buffArray.erase(5)
+		elif chanceFreezePlate >= 0.4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(5)
+	
+	if buffArray.has(6):
+		if chanceDefensePlate <= 0 && (type == StateBuff.BUFF):
+			buffArray.erase(6)
+		elif chanceDefensePlate >= 0.4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(6)
+	
+	if buffArray.has(7):
+		if chanceGoldPlate <= 0 && (type == StateBuff.BUFF):
+			buffArray.erase(7)
+		elif chanceGoldPlate >= 0.4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(7)
 	
 	print("BUFF EXCEPTION" ,buffArray)
 	return buffArray
-
-# Обновление состояния баффа/дебаффа для поля
-func updateBuffSize():
-	if PlayerStatus.currentSize == 2:
-		exceptionBuffIdArray.append(2)
-	elif PlayerStatus.currentSize == 4:
-		exceptionDebuffIdArray.append(2)
-	
-	if PlayerStatus.currentSize == 3:
-		exceptionBuffIdArray.erase(2)
-		exceptionDebuffIdArray.erase(2)
-	
-
-# Обновление состояние для баффа/дебаффа клеток
-func updateBuffPlate():
-	if (PlayerStatus.maxPlate - 1) == ((PlayerStatus.currentSize * PlayerStatus.currentSize) - 1):
-		exceptionBuffIdArray.erase(4)
-	
-	if PlayerStatus.minPlate == 1:
-		exceptionDebuffIdArray.append(4)
-		exceptionBuffIdArray.erase(4)
-	
-	if PlayerStatus.minPlate > 1:
-		exceptionBuffIdArray.erase(4)
-		exceptionDebuffIdArray.erase(4)
-	
-	if PlayerStatus.maxPlate < ((PlayerStatus.currentSize * PlayerStatus.currentSize) - 1):
-		exceptionDebuffIdArray.erase(4)
-
-func updateBuffError():
-	if PlayerStatus.getIsErrorPlateBuffActive():
-		exceptionBuffIdArray.append(3)
-		exceptionDebuffIdArray.erase(3)
-	
-	if !PlayerStatus.getIsErrorPlateBuffActive():
-		exceptionBuffIdArray.erase(3)
-		exceptionDebuffIdArray.append(3)
-	
-	print(exceptionBuffIdArray)
 
 func effectBuff(buffId: int, type: int) -> void:
 	var stage: Dictionary = PlayerStatus.getCurrentStage()
@@ -570,8 +545,6 @@ func effectBuff(buffId: int, type: int) -> void:
 					PlayerStatus.currentSize += 1
 					PlayerStatus.minPlate = 1
 					PlayerStatus.maxPlate = (PlayerStatus.currentSize * PlayerStatus.currentSize) - 1
-			
-#			updateBuffSize()
 		3:
 			if StateBuff.BUFF == type:
 				print("Disable error Plate")
@@ -579,8 +552,6 @@ func effectBuff(buffId: int, type: int) -> void:
 			elif StateBuff.DEBUFF == type:
 				print("Active error Plate")
 				PlayerStatus.setIsErrorPlateBuffActive(true)
-			
-#			updateBuffError()
 		4:
 			if StateBuff.BUFF == type:
 				print("EFFECT SMALL PLATE")
@@ -594,8 +565,6 @@ func effectBuff(buffId: int, type: int) -> void:
 					PlayerStatus.maxPlate += effectPlateAdd[PlayerStatus.getCurrentPlayerStage()]["plate"]
 					PlayerStatus.minPlate += 1
 					print("check")
-			
-#			updateBuffPlate()
 		5:
 			if StateBuff.BUFF == type:
 				print("EFFECT LESS CHANCE FREEZE PLATE")

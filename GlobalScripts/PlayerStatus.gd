@@ -36,7 +36,7 @@ var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentB
 # Массив дебаффов для текущей стадии
 var _currentDebuffStage: Array = [] : set = setCurrentDebuffStage, get = getCurrentDebuffStage
 
-# Активен ли бафф
+# Активен ли бафф ошибок
 var _isErrorPlateBuffActive: bool = false : set = setIsErrorPlateBuffActive, get = getIsErrorPlateBuffActive
 
 # Стадии игры
@@ -123,14 +123,14 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 1.5,
 		"MultiPlePointsPerSecond": 3.75,
 		"PointsPerPasle": 75,
-		"LevelSize": 0,
-		"PlatesBuffMin": 0,
-		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 0,
-		"PlatesDebuffMax": 0,
+		"LevelSize": 3,
+		"PlatesBuffMin": 3,
+		"PlatesBuffMax": 5,
+		"PlatesDebuffMin": 2,
+		"PlatesDebuffMax": 4,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 2, 8, 3, 4],
-		"AvalibaleDebuffsId": [0, 1, 2, 8, 3, 4],
+		"AvalibaleBuffsId": [0, 1, 8],
+		"AvalibaleDebuffsId": [0, 1, 8],
 	},
 	3: {
 		"PointsStage": 1550.0,
@@ -138,14 +138,14 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 2.0,
 		"MultiPlePointsPerSecond": 5.0,
 		"PointsPerPasle": 100,
-		"LevelSize": 0,
-		"PlatesBuffMin": 0,
-		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 0, 
-		"PlatesDebuffMax": 0,
+		"LevelSize": 3,
+		"PlatesBuffMin": 4,
+		"PlatesBuffMax": 7,
+		"PlatesDebuffMin": 3, 
+		"PlatesDebuffMax": 5,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 2, 8, 3, 4],
-		"AvalibaleDebuffsId": [0, 1, 2, 8, 3, 4],
+		"AvalibaleBuffsId": [0, 1, 8],
+		"AvalibaleDebuffsId": [0, 1, 8],
 	},
 	4: {
 		"PointsStage": 3800.0,
@@ -159,8 +159,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8, 9, 4, 3],
-		"AvalibaleDebuffsId": [0, 1, 8, 9, 3, 4],
+		"AvalibaleBuffsId": [0, 1, 4, 8, 9],
+		"AvalibaleDebuffsId": [0, 1, 4, 8, 9],
 	},
 	5: {
 		"PointsStage": 8200.0,
