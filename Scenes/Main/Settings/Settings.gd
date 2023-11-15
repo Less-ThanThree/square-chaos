@@ -6,7 +6,6 @@ extends Control
 @onready var chanceDefenseInput = $BoxContainer/ColorRect/ChanceDefense
 @onready var chanceGoldInput = $BoxContainer/ColorRect/ChanceGold
 @onready var constantDBFInput = $BoxContainer/ColorRect/ConstantDBF
-@onready var startStageInput = $BoxContainer/ColorRect/StartStage
 
 func _ready():
 	weightBuffInput.text = str(PlayerStatus.weightMatrixGenerationSize).pad_decimals(2)
@@ -15,7 +14,6 @@ func _ready():
 	chanceDefenseInput.text = str(ProbabilityBank.chanceDefensePlate).pad_decimals(2)
 	chanceGoldInput.text = str(ProbabilityBank.chanceGoldPlate).pad_decimals(2)
 	constantDBFInput.text = str(ProbabilityBank.PROCENTDBF).pad_decimals(2)
-	startStageInput.text = str(PlayerStatus.getCurrentPlayerStage())
 
 func _on_to_menu_pressed():
 		get_tree().change_scene_to_file("res://Scenes/Main/Main.tscn")
@@ -27,5 +25,4 @@ func _on_set_settings_pressed():
 	ProbabilityBank.chanceDefensePlate = float(chanceDefenseInput.text)
 	ProbabilityBank.chanceGoldPlate = float(chanceGoldInput.text)
 	ProbabilityBank.PROCENTDBF = float(constantDBFInput.text)
-	PlayerStatus.setCurrentPlayerStage(int(startStageInput.text))
 
