@@ -123,4 +123,3 @@ text = "FREEZE"
 [connection signal="timeout" from="TimerComponent/local_tm" to="." method="_on_local_tm_timeout"]
 [connection signal="timeout" from="TimerComponent/tick_tm" to="." method="_on_seconds_tm_timeout"]
 [connection signal="timeout" from="TimerComponent/global_tm" to="." method="_on_global_tm_timeout"]
-[connection signal="timeout" from="TimerComponent/freeze_tm" to="." method="_on_freeze_tm_timeout"]

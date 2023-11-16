@@ -100,11 +100,18 @@ func generateLevel(levelSize: int, minPlate: int, maxPlate: int):
 	
 	GeneratorLevel.levelsGenerate += 1
 	
-	if GeneratorLevel.levelsGenerate >= 2:
+	if PlayerStatus.LevelsCount == 2 && GeneratorLevel.levelsGenerate == 2:
+		var currentBuffs = PlayerStatus.getBuffStateCurrentLevel()
+		var buffLevel = currentBuffs[1]
+		print("BUUUUFS" ,buffLevel)
+		if currentBuffs[0][1] == buffLevel[1]:
+			while currentBuffs[0][0] == buffLevel[0]:
+				buffLevel = ProbabilityBank.rollBuff(currentStage["AvalibaleBuffsId"], currentStage["AvalibaleDebuffsId"])
+			setBuff(buffLevel[0], buffLevel[1])
+			PlayerStatus.setBuffStateCurrentLevel([buffLevel[0], buffLevel[1]])
 		while PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0), matrixTemplate)):
 				matrixTemplate = generateMatrix(matchMatrix(levelSize), minPlate, maxPlate, levelSize)
 				print("Regenerate matrix")
-	GeneratorLevel.levelsGenerate = 0
 	
 	PlayerStatus.addField([matrixTemplate])
 	

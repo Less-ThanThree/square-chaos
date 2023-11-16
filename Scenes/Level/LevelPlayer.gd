@@ -59,6 +59,7 @@ func _on_node_2d_ready_level():
 		allLevelsGenerate = 0
 		PlayerStatus.setCompareMatrix(false)
 		checkStage()
+		GeneratorLevel.levelsGenerate = 0
 
 func _on_node_2d_compare_level():
 	for node in gridLevel.get_children():
