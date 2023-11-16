@@ -84,6 +84,7 @@ func _on_node_2d_compare_level():
 	self.refresh_local_timer(local_wait_time)
 
 func isFreeze():
+	timerFreeze.stop()
 	PlayerStatus.setIsFreezeBuffActive(false)
 	
 	$TimerComponent/local_tm.set_paused(true)

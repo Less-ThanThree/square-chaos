@@ -16,7 +16,7 @@ var chanceDefensePlate = 0.025
 var chanceGoldPlate = 0.05
 
 # Константа для баффа/дебаффа шанса выпадения
-var PROCENTDBF = 0.25
+var PROCENTDBF = 0.05
 
 # Константа на выпадение различных клеток
 var PROCENTPLATE = 0.05
