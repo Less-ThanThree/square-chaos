@@ -21,6 +21,9 @@ var PROCENTDBF = 0.25
 # Константа на выпадение различных клеток
 var PROCENTPLATE = 0.05
 
+# Время действия баффа фризер
+var TIMEFREEZE: float = 5
+
 # Массив исключенных баффов
 var exceptionBuffIdArray: Array = []
 
@@ -595,3 +598,8 @@ func effectBuff(buffId: int, type: int) -> void:
 				print("MORE CHANCE DEBUFF")
 				chanceDebuff += PROCENTDBF
 				chanceBuff -= PROCENTDBF
+		11:
+			if StateBuff.BUFF == type:
+				print("TIME FREEZE")
+				PlayerStatus.setIsFreezeBuffActive(true)
+				

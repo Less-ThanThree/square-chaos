@@ -1,6 +1,9 @@
 extends Node
 
 var local_wait_time = 5 # in sec
+@onready var timerFreeze = $TimerComponent/freeze_tm
+@onready var panelTimer = $TimerComponent/Panel
+@onready var panelFreeze = $TimerComponent/Freeze
 
 # Эвент окончания общего таймера
 signal global_timer_timeout
@@ -9,6 +12,7 @@ func _ready():
 	var currentStage = PlayerStatus.getCurrentStage()
 	
 	local_wait_time = currentStage["TimePasle"]
+	timerFreeze.wait_time = ProbabilityBank.TIMEFREEZE
 	
 	self._refresh_global_tm()
 	self._refresh_local_tm(local_wait_time)
@@ -17,7 +21,8 @@ func _ready():
 	$TimerComponent/tick_tm.start()
 	
 func _process(delta):
-	pass
+	if PlayerStatus.getIsFreezeBuffActive():
+		isFreeze()
 	
 # Конвертирует время в секундах в строку формата "MM:SS"
 func _convert_time(time: int) -> String:
@@ -78,3 +83,19 @@ func _on_node_2d_compare_level():
 	
 	self.refresh_local_timer(local_wait_time)
 
+func isFreeze():
+	PlayerStatus.setIsFreezeBuffActive(false)
+	
+	$TimerComponent/local_tm.set_paused(true)
+	$TimerComponent/global_tm.set_paused(true)
+	
+	panelTimer.visible = false
+	panelFreeze.visible = true
+	
+	timerFreeze.start()
+
+func _on_freeze_tm_timeout():
+	$TimerComponent/local_tm.set_paused(false)
+	
+	panelFreeze.visible = false
+	panelTimer.visible = true

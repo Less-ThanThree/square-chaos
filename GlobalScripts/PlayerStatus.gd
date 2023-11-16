@@ -39,6 +39,9 @@ var _currentDebuffStage: Array = [] : set = setCurrentDebuffStage, get = getCurr
 # Активен ли бафф ошибок
 var _isErrorPlateBuffActive: bool = false : set = setIsErrorPlateBuffActive, get = getIsErrorPlateBuffActive
 
+# Активен ли бафф фризер
+var _isFreezeBuffActive: bool = false : set = setIsFreezeBuffActive, get = getIsFreezeBuffActive
+
 # Стадии игры
 # ID - номер стадии
 # PointsStage - количество общих очков для достижерия стадии
@@ -129,7 +132,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 4,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8],
+		"AvalibaleBuffsId": [0, 1, 8, 11],
 		"AvalibaleDebuffsId": [0, 1, 8],
 	},
 	3: {
@@ -144,7 +147,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 3, 
 		"PlatesDebuffMax": 5,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8],
+		"AvalibaleBuffsId": [0, 1, 8, 11],
 		"AvalibaleDebuffsId": [0, 1, 8],
 	},
 	4: {
@@ -159,7 +162,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 4, 8, 9, 11],
 		"AvalibaleDebuffsId": [0, 1, 4, 8, 9],
 	},
 	5: {
@@ -174,7 +177,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 5, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 4, 5, 8, 9, 11],
 		"AvalibaleDebuffsId": [0, 1, 4, 5, 8, 9],
 	},
 	6: {
@@ -441,3 +444,9 @@ func setIsErrorPlateBuffActive(isError: bool) -> void:
 
 func getIsErrorPlateBuffActive() -> bool:
 	return _isErrorPlateBuffActive
+
+func setIsFreezeBuffActive(isFreeze: bool) -> void:
+	_isFreezeBuffActive = isFreeze
+
+func getIsFreezeBuffActive() -> bool:
+	return _isFreezeBuffActive
