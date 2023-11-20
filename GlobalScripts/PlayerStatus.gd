@@ -42,6 +42,12 @@ var _isErrorPlateBuffActive: bool = false : set = setIsErrorPlateBuffActive, get
 # Активен ли бафф фризер
 var _isFreezeBuffActive: bool = false : set = setIsFreezeBuffActive, get = getIsFreezeBuffActive
 
+# Количество ходов временной защиты от дебаффа (бафф временная защита)
+var _playerDefenseCount: int = 0 : set = setPlayerDefenseCount, get = getPlayerDefenseCount
+
+# Активен ли бафф защиты
+var _isDefenseBuffActive: bool = false : set = setIsDefenseBuffActive, get = getIsDefenseBuffActive
+
 # Стадии игры
 # ID - номер стадии
 # PointsStage - количество общих очков для достижерия стадии
@@ -132,7 +138,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 4,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8, 11],
+		"AvalibaleBuffsId": [0, 1, 8, 11, 10],
 		"AvalibaleDebuffsId": [0, 1, 8],
 	},
 	3: {
@@ -147,7 +153,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 3, 
 		"PlatesDebuffMax": 5,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8, 11],
+		"AvalibaleBuffsId": [0, 1, 8, 11, 10],
 		"AvalibaleDebuffsId": [0, 1, 8],
 	},
 	4: {
@@ -162,7 +168,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 8, 9, 11],
+		"AvalibaleBuffsId": [0, 1, 4, 8, 9, 11, 10],
 		"AvalibaleDebuffsId": [0, 1, 4, 8, 9],
 	},
 	5: {
@@ -450,3 +456,18 @@ func setIsFreezeBuffActive(isFreeze: bool) -> void:
 
 func getIsFreezeBuffActive() -> bool:
 	return _isFreezeBuffActive
+
+func setPlayerDefenseCount(count: int) -> void:
+	_playerDefenseCount = count
+
+func getPlayerDefenseCount() -> int:
+	return _playerDefenseCount
+
+func minusPlayerDefenseCount(count: int) -> void:
+	_playerDefenseCount -= 1
+
+func setIsDefenseBuffActive(isActive: bool) -> void:
+	_isDefenseBuffActive = isActive
+
+func getIsDefenseBuffActive() -> bool:
+	return _isDefenseBuffActive

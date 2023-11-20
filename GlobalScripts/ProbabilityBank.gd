@@ -24,6 +24,9 @@ var PROCENTPLATE = 0.05
 # Время действия баффа фризер
 var TIMEFREEZE: float = 5
 
+# Количество ходов баффа временная защита
+var TEMPDEFENS = 5
+
 # Массив исключенных баффов
 var exceptionBuffIdArray: Array = []
 
@@ -598,6 +601,11 @@ func effectBuff(buffId: int, type: int) -> void:
 				print("MORE CHANCE DEBUFF")
 				chanceDebuff += PROCENTDBF
 				chanceBuff -= PROCENTDBF
+		10:
+			if StateBuff.BUFF == type:
+				print("DEFENSE DEBUFF")
+				PlayerStatus.setIsDefenseBuffActive(true)
+				PlayerStatus.setPlayerDefenseCount(TEMPDEFENS)
 		11:
 			if StateBuff.BUFF == type:
 				print("TIME FREEZE")

@@ -43,7 +43,12 @@ func _on_on_click_pressed():
 		if PlayerStatus.getPath() == true:
 			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
 			print(currentBuff)
-			ProbabilityBank.effectBuff(currentBuff[0][0], currentBuff[0][1])
+			
+			if currentBuff[0][1] == ProbabilityBank.StateBuff.DEBUFF && PlayerStatus.getIsDefenseBuffActive():
+				PlayerStatus.minusPlayerDefenseCount(1)
+			else:
+				ProbabilityBank.effectBuff(currentBuff[0][0], currentBuff[0][1])
+			
 			PlayerStatus.setApplyBuffId(currentBuff[0][0])
 			PlayerStatus.setApplyBuffId(currentBuff[0][1])
 			PlayerStatus.clearBuffStateCurrentLevel()
@@ -52,7 +57,12 @@ func _on_on_click_pressed():
 		if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(1),PlayerStatus.getPlayerLevelField())):
 			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
 			print(currentBuff)
-			ProbabilityBank.effectBuff(currentBuff[1][0], currentBuff[1][1])
+			
+			if currentBuff[1][1] == ProbabilityBank.StateBuff.DEBUFF && PlayerStatus.getIsDefenseBuffActive():
+				PlayerStatus.minusPlayerDefenseCount(1)
+			else:
+				ProbabilityBank.effectBuff(currentBuff[1][0], currentBuff[1][1])
+
 			PlayerStatus.setApplyBuffId(currentBuff[1][0])
 			PlayerStatus.setApplyBuffId(currentBuff[1][1])
 			PlayerStatus.clearBuffStateCurrentLevel()

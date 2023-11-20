@@ -4,6 +4,9 @@ var local_wait_time = 5 # in sec
 @onready var timerFreeze = $TimerComponent/freeze_tm
 @onready var panelTimer = $TimerComponent/Panel
 @onready var panelFreeze = $TimerComponent/Freeze
+@onready var panelDefense = $DefensePlate
+
+var defenseStr = "DEFENSE: %d"
 
 # Эвент окончания общего таймера
 signal global_timer_timeout
@@ -23,6 +26,9 @@ func _ready():
 func _process(delta):
 	if PlayerStatus.getIsFreezeBuffActive():
 		isFreeze()
+	
+	if PlayerStatus.getIsDefenseBuffActive():
+		isDefense()
 	
 # Конвертирует время в секундах в строку формата "MM:SS"
 func _convert_time(time: int) -> String:
@@ -100,3 +106,11 @@ func _on_freeze_tm_timeout():
 	
 	panelFreeze.visible = false
 	panelTimer.visible = true
+
+func isDefense():
+	panelDefense.text = defenseStr % PlayerStatus.getPlayerDefenseCount()
+	panelDefense.visible = true
+	
+	if PlayerStatus.getPlayerDefenseCount() <= 0:
+		PlayerStatus.setIsDefenseBuffActive(false)
+		panelDefense.visible = false
