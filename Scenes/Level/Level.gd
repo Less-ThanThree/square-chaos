@@ -4,9 +4,15 @@ extends Control
 @onready var gridLevel = $GridContainer
 @onready var colorBuff = $ContainerBuff/ColorBuff
 @onready var buffLabel = $ContainerBuff/ColorBuff/LabelBuff
+#@onready var fadeBuffRect = $FadeBuffRect
+#@onready var timerFadingWait = $timerFadingWait
+#@onready var timerFadingGeneral = $timerFadingGeneral
 
 var currentStage: Dictionary
 var buffState: Array
+#var fadeColorStart: Color = Color(0.361, 0.361, 0.361, 0)
+#var fadeColorEnd: Color = Color(0.361, 0.361, 0.361, 1)
+#var tween: Tween
 
 signal readyLevel
 signal compareLevel
@@ -47,6 +53,17 @@ func _ready():
 		colorBuff.visible = false
 	
 	generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
+	
+#	fadeBuffRect.color = fadeColorStart
+#
+#	tween = get_tree().create_tween()
+#	tween.tween_property(fadeBuffRect, "color", fadeColorEnd, ProbabilityBank.StateFading["FadeTime"])
+#	tween.tween_property(fadeBuffRect, "color", fadeColorStart, ProbabilityBank.StateFading["FadeTime"])
+#	tween.tween_property(fadeBuffRect, "color", fadeColorStart, ProbabilityBank.StateFading["FadeTime"])
+#	tween.stop()
+#
+#	timerFadingWait.wait_time = ProbabilityBank.StateFading["VisibleTime"]
+#	timerFadingGeneral.wait_time = ProbabilityBank.StateFading["GeneralTime"]
 
 func _process(delta):
 	if PlayerStatus.getCompareMatrix():
@@ -73,6 +90,9 @@ func _process(delta):
 			PlayerStatus.currentSize = currentStage["LevelSize"]
 		print("LevelSize: ", PlayerStatus.currentSize)
 		generateLevel(PlayerStatus.currentSize, PlayerStatus.minPlate, PlayerStatus.maxPlate)
+	
+#	if PlayerStatus.getIsFadingBuffActive():
+#		setFadeDebuff()
 
 # Генерация матрицы для уровня levelSize: размер матрицы, 
 # maxPlate: максимальное количество полей
@@ -181,6 +201,23 @@ func setPlateSize(minPlate: int, maxPlate: int) -> void:
 	print("MaxPlate: ", PlayerStatus.maxPlate)
 	if (maxPlate != 0):
 		PlayerStatus.maxPlate = maxPlate
-	
 	if (minPlate != 0):
 		PlayerStatus.minPlate = minPlate
+
+#func setFadeDebuff():
+#	PlayerStatus.setIsFadingBuffActive(false)
+#	timerFadingGeneral.start()
+#	timerFadingWait.start()
+
+#func _on_timer_fading_wait_timeout():
+#	tween.stop()
+#	tween.tween_property(fadeBuffRect, "color", fadeColorEnd, ProbabilityBank.StateFading["FadeTime"])
+#	tween.tween_property(fadeBuffRect, "color", fadeColorStart, ProbabilityBank.StateFading["FadeTime"])
+#	tween.play()
+#	timerFadingWait.start()
+#
+#func _on_timer_fading_general_timeout():
+#	tween.stop()
+#	timerFadingWait.stop()
+#	tween.tween_property(fadeBuffRect, "color", fadeColorStart, ProbabilityBank.StateFading["FadeTime"])
+#	tween.play()
