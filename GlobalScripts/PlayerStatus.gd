@@ -156,8 +156,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 3, 
 		"PlatesDebuffMax": 5,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8, 11, 10],
-		"AvalibaleDebuffsId": [0, 1, 8, 10],
+		"AvalibaleBuffsId": [0 ,3, 1, 8, 11, 10],
+		"AvalibaleDebuffsId": [0, 3, 1, 8, 10],
 	},
 	4: {
 		"PointsStage": 3800.0,
@@ -171,8 +171,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 8, 9, 11, 10],
-		"AvalibaleDebuffsId": [0, 1, 4, 8, 9, 10],
+		"AvalibaleBuffsId": [0, 1, 3, 4, 8, 9, 11, 10],
+		"AvalibaleDebuff sId": [0, 1, 3, 4, 8, 9, 10],
 	},
 	5: {
 		"PointsStage": 8200.0,
@@ -186,8 +186,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 5, 8, 9, 11],
-		"AvalibaleDebuffsId": [0, 1, 4, 5, 8, 9, 10],
+		"AvalibaleBuffsId": [0, 1, 4, 3, 5, 8, 9, 11],
+		"AvalibaleDebuffsId": [0, 1, 4, 3, 5, 8, 9, 10],
 	},
 	6: {
 		"PointsStage": 14600.0,
@@ -201,8 +201,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 0,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 5, 6, 8, 9],
-		"AvalibaleDebuffsId": [0, 1, 4, 5, 6, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 3, 4, 5, 6, 8, 9],
+		"AvalibaleDebuffsId": [0, 1, 3, 4, 5, 6, 8, 9],
 	},
 	7: {
 		"PointsStage": 28800.0,

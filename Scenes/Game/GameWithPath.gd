@@ -20,14 +20,6 @@ func _ready():
 	timerWaitField2.wait_time = ProbabilityBank.StateFading["VisibleTime"]
 	timerInvisibleField1.wait_time = ProbabilityBank.StateFading["InvisibleTime"]
 	timerInvisibleField2.wait_time = ProbabilityBank.StateFading["InvisibleTime"]
-	
-#	tween = get_tree().create_tween()
-#
-#	tween.tween_property(rectFadingField1, "color", colorEnd, ProbabilityBank.StateFading["FadeInTime"])
-#	tween.tween_property(rectFadingField1, "color", colorStart, ProbabilityBank.StateFading["FadeOutTime"])
-#	tween.tween_property(rectFadingField2, "color", colorEnd, ProbabilityBank.StateFading["FadeInTime"])
-#	tween.tween_property(rectFadingField2, "color", colorStart, ProbabilityBank.StateFading["FadeOutTime"])
-#	tween.stop()
 
 func _process(delta):
 	if PlayerStatus.getIsFadingBuffActive():

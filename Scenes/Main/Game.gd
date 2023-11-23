@@ -2,7 +2,8 @@ extends Node
 
 @onready var levelNoPath = preload("res://Scenes/Game/GameNoPath.tscn")
 @onready var levelWithPath = preload("res://Scenes/Game/GameWithPath.tscn")
-@onready var timer = $Timer
+@onready var timerCheckStageWithPath = $TimerCheckStageWithPath
+@onready var timerCheckStageNoPath = $TimerCheckStageNoPath
 @onready var isErrorRect = $isErrorFlash
 
 var currentLevel
@@ -25,17 +26,28 @@ func _process(delta):
 	if PlayerStatus.getIsErrorPlate():
 		animatedFlash()
 
-func _on_timer_timeout():
-	if PlayerStatus.getPath():
-		self.remove_child(currentLevel)
-		PlayerStatus.setCurrentLevelField()
-		currentLevel = levelWithPath.instantiate()
-		self.add_child(currentLevel)
-		timer.stop()
-		PlayerStatus.LevelsCount = 2
-
 func animatedFlash():
 	tween = get_tree().create_tween()
 	tween.tween_property(isErrorRect, "color", colorErrorEnd, 0.2)
 	tween.tween_property(isErrorRect, "color", colorError, 0.2)
 	tween.play()
+
+func _on_timer_check_stage_with_path_timeout():
+	if PlayerStatus.getPath():
+		self.remove_child(currentLevel)
+		PlayerStatus.setCurrentLevelField()
+		currentLevel = levelWithPath.instantiate()
+		self.add_child(currentLevel)
+		timerCheckStageWithPath.stop()
+		timerCheckStageNoPath.start()
+		PlayerStatus.LevelsCount = 2
+
+func _on_timer_check_stage_no_path_timeout():
+	if PlayerStatus.getPath() == false:
+		self.remove_child(currentLevel)
+		PlayerStatus.setCurrentLevelField()
+		PlayerStatus.LevelsCount = 1
+		currentLevel = levelNoPath.instantiate()
+		self.add_child(currentLevel)
+		timerCheckStageWithPath.start()
+		timerCheckStageNoPath.stop()
