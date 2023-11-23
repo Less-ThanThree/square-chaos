@@ -52,7 +52,7 @@ var _isDefenseBuffActive: bool = false : set = setIsDefenseBuffActive, get = get
 # ID - номер стадии
 # PointsStage - количество общих очков для достижерия стадии
 # TimePasle - Время на решение пазла
-# MultiplePoints - Множитель очков НЕ ИСПОЛЬЗУЕТСЯ
+# MultiplePoints - Множитель очков
 # MultiPlePointsPerSecond - Количество отнимаемых очков каждую секунду
 # PointsPerPasle - Количество очков за решеный пазл
 # LevelSize - значения (2,3,4) размер поля. ЕСЛИ 0 ТО ПОЛЕ БЕРЕТ ПАРАМЕТР ИЗ БАФФОВ И ПРЕДЫДУЩЕЙ СТАДИИ
@@ -139,7 +139,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMax": 4,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 8, 11, 10],
-		"AvalibaleDebuffsId": [0, 1, 8],
+		"AvalibaleDebuffsId": [0, 1, 8, 3],
 	},
 	3: {
 		"PointsStage": 1550.0,
@@ -154,7 +154,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMax": 5,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 8, 11, 10],
-		"AvalibaleDebuffsId": [0, 1, 8],
+		"AvalibaleDebuffsId": [0, 1, 8, 3],
 	},
 	4: {
 		"PointsStage": 3800.0,
@@ -169,7 +169,7 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 8, 9, 11, 10],
-		"AvalibaleDebuffsId": [0, 1, 4, 8, 9],
+		"AvalibaleDebuffsId": [0, 1, 4, 8, 9, 3],
 	},
 	5: {
 		"PointsStage": 8200.0,
@@ -177,7 +177,7 @@ var _playerStage: Dictionary = {
 		"MultiplePoints": 4.0,
 		"MultiPlePointsPerSecond": 10.0,
 		"PointsPerPasle": 200,
-		"LevelSize": 4,
+		"LevelSize": 0,
 		"PlatesBuffMin": 0,
 		"PlatesBuffMax": 0,
 		"PlatesDebuffMin": 0,

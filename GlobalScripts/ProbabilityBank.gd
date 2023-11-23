@@ -39,6 +39,8 @@ enum StateBuff {
 	DEBUFF = 1,
 }
 
+# POINTS - Константа добавления очков к множетелю стадии
+# ERRORPOINTS - Константа убавления очков к множетелю стадии
 enum StateEffect {
 	POINTS = 5,
 	ERRORPOINTS = 20,
@@ -81,6 +83,7 @@ var effectTimeBuff: Dictionary = {
 	}
 }
 
+# Словарь бафф эффекта клеток
 var effectPlateAdd: Dictionary = {
 	2: {
 		"plate": 1,
@@ -117,6 +120,7 @@ var effectPlateAdd: Dictionary = {
 	}
 }
 
+# Словарь дебаффа эффекта клеток
 var effectPlateMinus: Dictionary = {
 	2: {
 		"plate": 1,
