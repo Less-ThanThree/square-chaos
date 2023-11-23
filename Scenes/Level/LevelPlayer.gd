@@ -8,9 +8,9 @@ extends Control
 var allLevelsGenerate = 0
 var currentStage
 
-func _ready():
-	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
-	generateLevel(PlayerStatus.getPlayerLevelField())
+#func _ready():
+#	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
+#	generateLevel(PlayerStatus.getPlayerLevelField())
 
 func _process(delta):
 	if PlayerStatus.getIsErrorPlate():
@@ -29,6 +29,31 @@ func _process(delta):
 func generateLevel(matrix) -> void:
 	var xCounter = -1
 	var yCounter = -1
+	var fieldPlayerPlate: Array
+	
+	match PlayerStatus.currentSize:
+		2:
+			fieldPlayerPlate = GeneratorLevel.matrixTemplateX2.duplicate(true)
+		3:
+			fieldPlayerPlate = GeneratorLevel.matrixTemplateX3.duplicate(true)
+		4:
+			fieldPlayerPlate = GeneratorLevel.matrixTemplateX4.duplicate(true)
+	
+	if !PlayerStatus.getPath():
+		fieldPlayerPlate = PlayerStatus.getCurrentLevelField(0).duplicate(true)
+	elif PlayerStatus.LevelsCount >= 2:
+		var matrix1 = PlayerStatus.getCurrentLevelField(0).duplicate(true)
+		var matrix2 = PlayerStatus.getCurrentLevelField(1).duplicate(true)
+		
+		for x in matrix1.size():
+			for y in matrix1[x]:
+				if matrix1[x][y] == 1:
+					fieldPlayerPlate[x][y] = 1
+		
+		for x in matrix2.size():
+			for y in matrix2[x]:
+				if matrix2[x][y] == 1:
+					fieldPlayerPlate[x][y] = 1
 	
 	gridLevel.set_columns(matrix.size())
 	for x in matrix.size():
@@ -39,7 +64,10 @@ func generateLevel(matrix) -> void:
 			
 			var plateNumber = getRandomPlate()
 			var plate_instance
-	
+			
+			if fieldPlayerPlate[x][y] == 0 && plateNumber != 0:
+				plateNumber = 0
+			
 			match plateNumber:
 				0:
 					plate_instance = plate.instantiate()
@@ -56,6 +84,11 @@ func generateLevel(matrix) -> void:
 func _on_node_2d_ready_level():
 	allLevelsGenerate += 1
 	if PlayerStatus.LevelsCount == allLevelsGenerate:
+		for node in gridLevel.get_children():
+			gridLevel.remove_child(node)
+			node.queue_free()
+		GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
+		generateLevel(PlayerStatus.getPlayerLevelField())
 		allLevelsGenerate = 0
 		PlayerStatus.setCompareMatrix(false)
 		checkStage()
@@ -81,8 +114,8 @@ func _on_node_2d_compare_level():
 
 	if currentStage["LevelSize"] != 0:
 		PlayerStatus.currentSize = currentStage["LevelSize"]
-	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
-	generateLevel(PlayerStatus.getPlayerLevelField())
+#	GeneratorLevel.generatePlayerMatrix(PlayerStatus.currentSize)
+#	generateLevel(PlayerStatus.getPlayerLevelField())
 
 # Проверка перехода стадии
 func checkStage():
