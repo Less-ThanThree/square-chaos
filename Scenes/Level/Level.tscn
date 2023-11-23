@@ -23,14 +23,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="FadeBuffRect" type="ColorRect" parent="."]
-layout_mode = 2
-offset_right = 720.0
-offset_bottom = 566.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0.360784, 0.360784, 0.360784, 1)
-
 [node name="ContainerBuff" type="BoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
@@ -61,10 +53,3 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Бафф"
-
-[node name="timerFadingWait" type="Timer" parent="."]
-
-[node name="timerFadingGeneral" type="Timer" parent="."]
-
-[connection signal="timeout" from="timerFadingWait" to="." method="_on_timer_fading_wait_timeout"]
-[connection signal="timeout" from="timerFadingGeneral" to="." method="_on_timer_fading_general_timeout"]

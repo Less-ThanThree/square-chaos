@@ -30,6 +30,10 @@ window/size/viewport_height=1440
 window/stretch/mode="canvas_items"
 window/handheld/orientation=5
 
+[editor]
+
+movie_writer/movie_file="/Users/zendostan/Movies/output.avi"
+
 [rendering]
 
 renderer/rendering_method="mobile"

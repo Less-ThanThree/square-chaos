@@ -35,9 +35,11 @@ var exceptionDebuffIdArray: Array = []
 
 # Состояние для дебаффа медленное угасание
 var StateFading: Dictionary = {
-	"GeneralTime": 10.0,
+	"GeneralTime": 20.0,
 	"VisibleTime":4.0,
-	"FadeTime": 2.0,
+	"InvisibleTime": 2.0,
+	"FadeInTime": 1.0,
+	"FadeOutTime": 1.0,
 }
 
 # Состояние баффа/дебаффа
