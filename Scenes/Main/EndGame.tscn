@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=3 uid="uid://dheepkgmn5es0"]
+
+[ext_resource type="Script" path="res://Scenes/Main/EndGame.gd" id="1_ftgrk"]
+
+[node name="EndGame" type="Node"]
+script = ExtResource("1_ftgrk")
+
+[node name="BoxContainer" type="BoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.780392, 0.113725, 0.113725, 1)
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Потрачено"
+horizontal_alignment = 1
+
+[node name="ReloadGame" type="Button" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = 112.0
+offset_right = 112.0
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Еще раз"
+
+[node name="ToMenu" type="Button" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = 240.0
+offset_right = 112.0
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1.00452)
+text = "Меню"
+
+[connection signal="pressed" from="BoxContainer/ColorRect/ReloadGame" to="." method="_on_reload_game_pressed"]
+[connection signal="pressed" from="BoxContainer/ColorRect/ToMenu" to="." method="_on_to_menu_pressed"]

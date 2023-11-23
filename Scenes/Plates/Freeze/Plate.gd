@@ -1,17 +1,66 @@
 extends Control
 
 @onready var plate = $ColorRect
-var switch = false
+@onready var timerTap = $TimeTap
+@onready var button = $OnClick
 
-func _on_on_click_pressed():
-	var buttonInfo = self.name.split('_', true, 3)
+var tween: Tween
+var switch: bool 			= false
+var timeWaitTap: float 		= 0.16
+var noMore: bool			= false
+var freezDone: bool			= false
+var isDown: bool			= false
+var colorStart: Color		= Color(0.075, 0.455, 0.894)
+var colorEnd: Color			= Color(0, 0, 0)
+var colorOn: Color			= Color(1, 1, 1)
+var buttonInfo: PackedStringArray
+
+func _ready():
+	timerTap.wait_time = timeWaitTap
+	timerTap.one_shot = true
+	timerTap.autostart = false
+	plate.color = colorStart
+	tween = get_tree().create_tween()
+	tween.tween_property($ColorRect, "color", colorEnd, timeWaitTap - 0.05)
+	tween.stop()
+	buttonInfo = self.name.split('_', true, 3)
+
+func _process(delta):
+	if noMore:
+		freezDone = true
 	
+	if !tween.is_valid():
+		tween.stop()
+		freezDone = true
+		
+	if isDown && timerTap.is_stopped():
+		noMore = true
+		tween.stop()
+	if !isDown && !timerTap.is_stopped():
+		timerTap.stop()
+		tween.stop()
+		$ColorRect.color = colorStart
+
+func _on_on_click_button_down():
+	if !freezDone:
+		isDown = true
+		timerTap.start()
+		tween.play()
+
+func _on_on_click_button_up():
+	if !freezDone:
+		isDown = false
+		noMore = false
+	else:
+		getPlateActive()
+
+func getPlateActive() -> void:
 	if switch:
-		plate.set_color(Color(1,1,1))
+		plate.set_color(colorOn)
 		switch = false
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 0)
 	else:
-		plate.set_color(Color(0,0,0))
+		plate.set_color(colorEnd)
 		switch = true
 		GeneratorLevel.updateMatrix(int(buttonInfo[1]), int(buttonInfo[2]), 1)
 		
@@ -20,7 +69,7 @@ func _on_on_click_pressed():
 		elif PlayerStatus.getPath() == true && PlayerStatus.getIsErrorPlateBuffActive():
 			if isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(0), int(buttonInfo[1]), int(buttonInfo[2])) && isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(1), int(buttonInfo[1]), int(buttonInfo[2])):
 				PlayerStatus.setIsErrorPlate(true)
-			
+		
 	print("Player Matrix", PlayerStatus.getPlayerLevelField())
 	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
 	if PlayerStatus.LevelsCount >= 2:
@@ -35,10 +84,9 @@ func _on_on_click_pressed():
 				PlayerStatus.minusPlayerDefenseCount(1)
 			else:
 				ProbabilityBank.effectBuff(currentBuff[0][0], currentBuff[0][1])
-				
+			
 			PlayerStatus.setApplyBuffId(currentBuff[0][0])
 			PlayerStatus.setApplyBuffId(currentBuff[0][1])
-			
 			PlayerStatus.clearBuffStateCurrentLevel()
 		PlayerStatus.setCurrentLevelField()
 	elif PlayerStatus.LevelsCount >= 2:
@@ -53,7 +101,6 @@ func _on_on_click_pressed():
 				
 			PlayerStatus.setApplyBuffId(currentBuff[1][0])
 			PlayerStatus.setApplyBuffId(currentBuff[1][1])
-			
 			PlayerStatus.clearBuffStateCurrentLevel()
 			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()

@@ -1,0 +1,196 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgmn3dn7u0757"]
+
+[ext_resource type="Script" path="res://Scenes/Main/Settings/Settings.gd" id="1_5pags"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5pags")
+
+[node name="BoxContainer" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.168627, 0.576471, 0.796078, 1)
+
+[node name="WeightBuff" type="LineEdit" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -296.0
+offset_top = 72.0
+offset_right = -228.938
+offset_bottom = 103.0
+grow_horizontal = 2
+scale = Vector2(3.82844, 1.75136)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect/WeightBuff"]
+layout_mode = 0
+offset_top = -22.8394
+offset_right = 185.0
+offset_bottom = 3.16063
+scale = Vector2(0.404458, 0.73099)
+text = "Вес генерации матриц"
+
+[node name="TimeGame" type="LineEdit" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -296.0
+offset_top = 192.0
+offset_right = -228.938
+offset_bottom = 223.0
+grow_horizontal = 2
+scale = Vector2(3.82844, 1.75136)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect/TimeGame"]
+layout_mode = 0
+offset_top = -22.8393
+offset_right = 185.0
+offset_bottom = 3.16065
+scale = Vector2(0.404458, 0.73099)
+text = "Время игры (секунды)"
+
+[node name="ChanceFreeze" type="LineEdit" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -296.0
+offset_top = 320.0
+offset_right = -228.938
+offset_bottom = 351.0
+grow_horizontal = 2
+scale = Vector2(3.82844, 1.75136)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect/ChanceFreeze"]
+layout_mode = 0
+offset_top = -22.8394
+offset_right = 185.0
+offset_bottom = 3.16063
+scale = Vector2(0.404458, 0.73099)
+text = "Шанс выпадения замороженой клетки"
+
+[node name="ChanceDefense" type="LineEdit" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -296.0
+offset_top = 440.0
+offset_right = -228.938
+offset_bottom = 471.0
+grow_horizontal = 2
+scale = Vector2(3.82844, 1.75136)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect/ChanceDefense"]
+layout_mode = 0
+offset_top = -22.8394
+offset_right = 314.0
+offset_bottom = 3.16064
+scale = Vector2(0.404458, 0.73099)
+text = "Шанс выпадения защищенной клетки"
+
+[node name="ChanceGold" type="LineEdit" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -296.0
+offset_top = 560.0
+offset_right = -228.938
+offset_bottom = 591.0
+grow_horizontal = 2
+scale = Vector2(3.82844, 1.75428)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect/ChanceGold"]
+layout_mode = 0
+offset_top = -22.8393
+offset_right = 314.0
+offset_bottom = 3.16068
+scale = Vector2(0.404458, 0.73099)
+text = "Шанс выпадения золотой клетки"
+
+[node name="ConstantDBF" type="LineEdit" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -296.0
+offset_top = 704.0
+offset_right = -228.938
+offset_bottom = 735.0
+grow_horizontal = 2
+scale = Vector2(3.82844, 1.75428)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="Label" type="Label" parent="BoxContainer/ColorRect/ConstantDBF"]
+layout_mode = 0
+offset_top = -22.8393
+offset_right = 314.0
+offset_bottom = 3.16068
+scale = Vector2(0.404458, 0.73099)
+text = "Константа добавления баффа/дебаффа"
+
+[node name="SetSettings" type="Button" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -416.0
+offset_right = 120.0
+offset_bottom = -352.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Применить"
+
+[node name="ToMenu" type="Button" parent="BoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 120.0
+offset_top = -656.0
+offset_right = 344.0
+offset_bottom = -592.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "В меню"
+
+[connection signal="pressed" from="BoxContainer/ColorRect/SetSettings" to="." method="_on_set_settings_pressed"]
+[connection signal="pressed" from="BoxContainer/ColorRect/ToMenu" to="." method="_on_to_menu_pressed"]

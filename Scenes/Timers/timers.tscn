@@ -97,6 +97,47 @@ text = "Время пазла"
 [node name="global_tm" type="Timer" parent="TimerComponent"]
 one_shot = true
 
+[node name="Freeze" type="ColorRect" parent="TimerComponent"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.121569, 0.372549, 1, 1)
+
+[node name="Label" type="Label" parent="TimerComponent/Freeze"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "FREEZE"
+
+[node name="freeze_tm" type="Timer" parent="TimerComponent"]
+one_shot = true
+
+[node name="DefensePlate" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -73.0
+offset_right = 37.0
+offset_bottom = -47.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DEFENSE: "
+
 [connection signal="timeout" from="TimerComponent/local_tm" to="." method="_on_local_tm_timeout"]
 [connection signal="timeout" from="TimerComponent/tick_tm" to="." method="_on_seconds_tm_timeout"]
 [connection signal="timeout" from="TimerComponent/global_tm" to="." method="_on_global_tm_timeout"]
+[connection signal="timeout" from="TimerComponent/freeze_tm" to="." method="_on_freeze_tm_timeout"]

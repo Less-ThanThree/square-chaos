@@ -6,19 +6,175 @@ var chanceBuff = 0.5
 # Шанс выпадения дебаффа
 var chanceDebuff = 0.5
 
+# Шанс выпадения замороженной клетки
+var chanceFreezePlate = 0.05
+
+# Шанс выпадения защищенной клетки
+var chanceDefensePlate = 0.025
+
+# Шанс выпадения золотой клетки
+var chanceGoldPlate = 0.05
+
+# Константа для баффа/дебаффа шанса выпадения
+var PROCENTDBF = 0.05
+
+# Константа на выпадение различных клеток
+var PROCENTPLATE = 0.05
+
+# Время действия баффа фризер
+var TIMEFREEZE: float = 5
+
+# Количество ходов баффа временная защита
+var TEMPDEFENS = 5
+
+# Массив исключенных баффов
+var exceptionBuffIdArray: Array = []
+
+# Массив исключенных дебаффов
+var exceptionDebuffIdArray: Array = []
+
+# Состояние для дебаффа медленное угасание
+var StateFading: Dictionary = {
+	"GeneralTime": 20.0,
+	"VisibleTime":4.0,
+	"InvisibleTime": 2.0,
+	"FadeInTime": 1.0,
+	"FadeOutTime": 1.0,
+}
+
 # Состояние баффа/дебаффа
 enum StateBuff {
 	BUFF = 0,
 	DEBUFF = 1,
 }
 
+# POINTS - Константа добавления очков к множетелю стадии
+# ERRORPOINTS - Константа убавления очков к множетелю стадии
+enum StateEffect {
+	POINTS = 5,
+	ERRORPOINTS = 20,
+}
+
+# Словарь бафф/дебаффов эффекта времени
+var effectTimeBuff: Dictionary = {
+	2: {
+		"time": 5.0,
+	},
+	3: {
+		"time": 5.0,
+	},
+	4: {
+		"time": 5.0,
+	},
+	5: {
+		"time": 5.0,
+	},
+	6: {
+		"time": 5.0,
+	},
+	7: {
+		"time": 5.0,
+	},
+	8: {
+		"time": 5.0,
+	},
+	9: {
+		"time": 5.0,
+	},
+	10: {
+		"time": 5.0,
+	},
+	11: {
+		"time": 5.0,
+	},
+	12: {
+		"time": 5.0,
+	}
+}
+
+# Словарь бафф эффекта клеток
+var effectPlateAdd: Dictionary = {
+	2: {
+		"plate": 1,
+	},
+	3: {
+		"plate": 1,
+	},
+	4: {
+		"plate": 1,
+	},
+	5: {
+		"plate": 1,
+	},
+	6: {
+		"plate": 1,
+	},
+	7: {
+		"plate": 1,
+	},
+	8: {
+		"plate": 1,
+	},
+	9: {
+		"plate": 1,
+	},
+	10: {
+		"plate": 1,
+	},
+	11: {
+		"plate": 1,
+	},
+	12: {
+		"plate": 1,
+	}
+}
+
+# Словарь дебаффа эффекта клеток
+var effectPlateMinus: Dictionary = {
+	2: {
+		"plate": 1,
+	},
+	3: {
+		"plate": 1,
+	},
+	4: {
+		"plate": 1,
+	},
+	5: {
+		"plate": 1,
+	},
+	6: {
+		"plate": 1,
+	},
+	7: {
+		"plate": 1,
+	},
+	8: {
+		"plate": 1,
+	},
+	9: {
+		"plate": 1,
+	},
+	10: {
+		"plate": 1,
+	},
+	11: {
+		"plate": 1,
+	},
+	12: {
+		"plate": 1,
+	}
+}
+
 # Словарь баффа
+# ID - Идентификатор баффа/дебаффа
 # W - Вес
 # M - Множитель уменьшения веса
 # С - Счетчик, изначальное значение 0 НЕ ТРОГАТЬ
 # Max - Счетчик максимума
 var buffs: Dictionary = {
 	0: {
+		"ID": 0,
 		"W": 50.0,
 		"M": 5.0,
 		"C": 0,
@@ -27,6 +183,7 @@ var buffs: Dictionary = {
 		"Description": "Прибавляет (+) N кол-во времени × (Множитель стадии ВРЕМЕНИ) к общему таймеру.",
 	},
 	1: {
+		"ID": 1,
 		"W": 50.0,
 		"M": 5.0,
 		"C": 0,
@@ -35,6 +192,7 @@ var buffs: Dictionary = {
 		"Description": "Прибавляет (+) кол-во очков × (Множитель очков) к счётчику очков."
 	},
 	2: {
+		"ID": 2,
 		"W": 50.0,
 		"M": 5.0,
 		"C": 0,
@@ -43,6 +201,7 @@ var buffs: Dictionary = {
 		"Description": "Меняет размер игрового и целевого поля, (начиная с следующего пазла), на меньшее. Игровое поле НЕ может быть меньше (2x2) "
 	},
 	3: {
+		"ID": 3,
 		"W": 15.0,
 		"M": 5.0,
 		"C": 0,
@@ -51,6 +210,7 @@ var buffs: Dictionary = {
 		"Description": "отключает функцию 'механика ошибок'. При нажатии на те клетки игрового поля, что не учавствует ни в одном из патернов целевого поля, игрока штрафуют на N кол-во очков × (Множитель очков) и аннулируют активированные ячейки на игровом поле."
 	},
 	4: {
+		"ID": 4,
 		"W": 10.0,
 		"M": 5.0,
 		"C": 0,
@@ -59,6 +219,7 @@ var buffs: Dictionary = {
 		"Description": "Уменьшает (-) количество клеток на Целевом поле на N кол-во, но НЕ может быть < Кол-во клетокдля поле бафов / дебафов или > (Размер игрового поля - 1). Однако если у игрока минимально допустимое количество клеток для данной стадии, то исключаем выпадение бафа – 'уменьшение'."
 	},
 	5: {
+		"ID": 5,
 		"W": 30.0,
 		"M": 5.0,
 		"C": 0,
@@ -67,6 +228,7 @@ var buffs: Dictionary = {
 		"Description": "Убавляет (-)  текущую вероятность появления на Целевом поле разновидности клеток с [название эффекта]. Если вероятность одного из эффектов = 0, то исключаем выпадение – 'меньше [название эффекта]'. Если вероятность одного из эффектов > 40%, то исключаем выпадение – 'больше [название эффекта]'. И при этом сумма всех эффектов бафов и дебафов НЕ может быть > 80%",
 	},
 	6: {
+		"ID": 6,
 		"W": 40.0,
 		"M": 5.0,
 		"C": 0,
@@ -75,6 +237,7 @@ var buffs: Dictionary = {
 		"Description": "Убавляет (-)  текущую вероятность появления на Целевом поле разновидности клеток с [название эффекта]. Если вероятность одного из эффектов = 0, то исключаем выпадение – 'меньше [название эффекта]'. Если вероятность одного из эффектов > 40%, то исключаем выпадение – 'больше [название эффекта]'. И при этом сумма всех эффектов бафов и дебафов НЕ может быть > 80%",
 	},
 	7: {
+		"ID": 7,
 		"W": 5.0,
 		"M": 5.0,
 		"C": 0,
@@ -83,6 +246,7 @@ var buffs: Dictionary = {
 		"Description": "Прибавляет (+)  текущую вероятность появления на Целевом поле разновидности клеток с [название эффекта]. Если вероятность одного из эффектов = 0, то исключаем выпадение – 'меньше [название эффекта]'. Если вероятность одного из эффектов > 40%, то исключаем выпадение – 'больше [название эффекта]'. И при этом сумма всех эффектов бафов и дебафов НЕ может быть > 80%",
 	},
 	8: {
+		"ID": 8,
 		"W": 5.0,
 		"M": 5.0,
 		"C": 0,
@@ -91,6 +255,7 @@ var buffs: Dictionary = {
 		"Description": "Увлеичивает (➕) контрастность клеток паттерна Целевого поля."
 	},
 	9: {
+		"ID": 9,
 		"W": 5.0,
 		"M": 5.0,
 		"C": 0,
@@ -99,6 +264,7 @@ var buffs: Dictionary = {
 		"Description": "Прибавляет (➕) N% к выпадению двух полей бафов или дебафов. На старте игры, вероятности выпадения баффа и дебаффа на Целевых полях #1 и #2 установлены как 50% / 50%. Однако если выпадет этот баф, то шанс исходный шанс можно увеличить и соотвественно убавить для бафа или дебафа."
 	},
 	10: {
+		"ID": 10,
 		"W": 5.0,
 		"M": 5.0,
 		"C": 0,
@@ -107,6 +273,7 @@ var buffs: Dictionary = {
 		"Description": "Позволяет игроку N раз избежать получения дебафа при выборе пути с дебафом.",
 	},
 	11: {
+		"ID": 11,
 		"W": 5.0,
 		"M": 5.0,
 		"C": 0,
@@ -119,6 +286,7 @@ var buffs: Dictionary = {
 # Словарь дебаффа
 var debuffs: Dictionary = {
 	0: {
+		"ID": 0,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -127,14 +295,16 @@ var debuffs: Dictionary = {
 		"Description": "Убавляет (-) N кол-во времени × (Множитель стадии ВРЕМЕНИ) к общему таймеру.",
 	},
 	1: {
+		"ID": 1,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
 		"Max": 2,
-		"Name": "Минус время",
+		"Name": "Минус очки",
 		"Description": "Убавляет (-) кол-во очков × (Множитель очков) к счётчику очков."
 	},
 	2: {
+		"ID": 2,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -143,6 +313,7 @@ var debuffs: Dictionary = {
 		"Description": "Меняет размер игрового и целевого поля, (начиная с следующего пазла), на большее. Игровое поле НЕ может быть больше (4x4) "
 	},
 	3: {
+		"ID": 3,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -151,6 +322,7 @@ var debuffs: Dictionary = {
 		"Description": "Включает функцию 'механика ошибок'. При нажатии на те клетки игрового поля, что не учавствует ни в одном из патернов целевого поля, игрока штрафуют на N кол-во очков × (Множитель очков) и аннулируют активированные ячейки на игровом поле."
 	},
 	4: {
+		"ID": 4,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -159,6 +331,7 @@ var debuffs: Dictionary = {
 		"Description": "Если у игрока количество клеток = (Размер игрового поля - 1), то исключаем выпадение бафа – 'Прибавление'."
 	},
 	5: {
+		"ID": 5,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -167,6 +340,7 @@ var debuffs: Dictionary = {
 		"Description": "Прибавляет (+)  текущую вероятность появления на Целевом поле разновидности клеток с [название эффекта]. Если вероятность одного из эффектов = 0, то исключаем выпадение – 'меньше [название эффекта]'. Если вероятность одного из эффектов > 40%, то исключаем выпадение – 'больше [название эффекта]'. И при этом сумма всех эффектов бафов и дебафов НЕ может быть > 80%",
 	},
 	6: {
+		"ID": 6,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -175,6 +349,7 @@ var debuffs: Dictionary = {
 		"Description": "Прибавляет (+) текущую вероятность появления на Целевом поле разновидности клеток с [название эффекта]. Если вероятность одного из эффектов = 0, то исключаем выпадение – 'меньше [название эффекта]'. Если вероятность одного из эффектов > 40%, то исключаем выпадение – 'больше [название эффекта]'. И при этом сумма всех эффектов бафов и дебафов НЕ может быть > 80%",
 	},
 	7: {
+		"ID": 7,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -183,6 +358,7 @@ var debuffs: Dictionary = {
 		"Description": "Уменьшает (-) текущую вероятность появления на Целевом поле разновидности клеток с [название эффекта]. Если вероятность одного из эффектов = 0, то исключаем выпадение – 'меньше [название эффекта]'. Если вероятность одного из эффектов > 40%, то исключаем выпадение – 'больше [название эффекта]'. И при этом сумма всех эффектов бафов и дебафов НЕ может быть > 80%",
 	},
 	8: {
+		"ID": 8,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -191,6 +367,7 @@ var debuffs: Dictionary = {
 		"Description": "Уменьшает (-) контрастность клеток паттерна Целевого поля."
 	},
 	9: {
+		"ID": 9,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -199,6 +376,7 @@ var debuffs: Dictionary = {
 		"Description": "Прибавляет (+) N% к выпадению двух полей бафов или дебафов. На старте игры, вероятности выпадения баффа и дебаффа на Целевых полях #1 и #2 установлены как 50% / 50%. Однако если выпадет этот баф, то шанс исходный шанс можно увеличить и соотвественно убавить для бафа или дебафа."
 	},
 	10: {
+		"ID": 10,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -207,6 +385,7 @@ var debuffs: Dictionary = {
 		"Description": "В течении [Общее Время] на Целевые поля применяется этот эффект. После появления пазла, пазл в течении [Время Видимости Пазла] виден игроку, в течении [Время Угасания Пазла] угасает, [Время Невидимости Пазла] не виден игроку и [Время Возвращения Пазла] снова возвращается и виден игроку и после [Время Ожидания] эффект повторяется."
 	},
 	11: {
+		"ID": 11,
 		"W": 20.0,
 		"M": 5.0,
 		"C": 0,
@@ -224,8 +403,7 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 	
 	if procentBuff > procentDebuff:
 		PlayerStatus.setCurrentBuffStage(createBuffArray(StateBuff.BUFF, stageArrayBuff))
-		print(PlayerStatus.getCurrentBuffStage())
-		print(PlayerStatus.getCurrentBuffStage().size())
+#		var test = PlayerStatus.getCurrentBuffStage()
 		currentBuffId = chooseBuff(StateBuff.BUFF, PlayerStatus.getCurrentBuffStage().size(), PlayerStatus.getCurrentBuffStage())
 		if currentBuffId == -1:
 			print("Error")
@@ -238,6 +416,7 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 			return [currentBuffId, StateBuff.BUFF]
 	else:
 		PlayerStatus.setCurrentDebuffStage(createBuffArray(StateBuff.DEBUFF, stageArrayDebuff))
+#		var test = PlayerStatus.getCurrentDebuffStage()
 		print(PlayerStatus.getCurrentDebuffStage())
 		currentBuffId = chooseBuff(StateBuff.DEBUFF, PlayerStatus.getCurrentDebuffStage().size(), PlayerStatus.getCurrentDebuffStage())
 		if currentBuffId == -1:
@@ -264,7 +443,7 @@ func chooseBuff(type: int, size: int, currentBuffArray: Array) -> int:
 		sumProb += probabilitis[i]
 		if randVal <= sumProb:
 			updateAfterDrop(i, currentBuffArray)
-			return i
+			return currentBuffArray[i]["ID"]
 		updateWithoutDrop(i, currentBuffArray)
 		
 	return -1
@@ -301,11 +480,158 @@ func createBuffArray(type: int, buffIdArray: Array) -> Array:
 	var currentBuff: Array
 	
 	if type == StateBuff.BUFF:
+		buffIdArray = updateBuffException(buffIdArray, type)
 		for id in buffIdArray:
 			currentBuff.append(buffs[id])
 	
 	if type == StateBuff.DEBUFF:
+		buffIdArray = updateBuffException(buffIdArray, type)
 		for id in buffIdArray:
 			currentBuff.append(debuffs[id])
 	
 	return currentBuff
+
+func updateBuffException(buffArray: Array, type: int) -> Array:
+	if buffArray.has(2):
+		if PlayerStatus.currentSize == 2 && (type == StateBuff.BUFF):
+			buffArray.erase(2)
+		elif PlayerStatus.currentSize == 4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(2)
+	
+	if buffArray.has(3):
+		if !PlayerStatus.getIsErrorPlateBuffActive() && type == StateBuff.BUFF:
+			buffArray.erase(3)
+		elif PlayerStatus.getIsErrorPlateBuffActive() && type == StateBuff.DEBUFF:
+			buffArray.erase(3)
+	
+	if buffArray.has(4):
+		if PlayerStatus.minPlate == 1 && (type == StateBuff.BUFF):
+			buffArray.erase(4)
+		
+		if PlayerStatus.maxPlate == ((PlayerStatus.currentSize * PlayerStatus.currentSize) - 1) && StateBuff.DEBUFF:
+			buffArray.erase(4)
+	
+	if buffArray.has(5):
+		if chanceFreezePlate <= 0 && (type == StateBuff.BUFF):
+			buffArray.erase(5)
+		elif chanceFreezePlate >= 0.4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(5)
+	
+	if buffArray.has(6):
+		if chanceDefensePlate <= 0 && (type == StateBuff.BUFF):
+			buffArray.erase(6)
+		elif chanceDefensePlate >= 0.4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(6)
+	
+	if buffArray.has(7):
+		if chanceGoldPlate <= 0 && (type == StateBuff.BUFF):
+			buffArray.erase(7)
+		elif chanceGoldPlate >= 0.4 && (type == StateBuff.DEBUFF):
+			buffArray.erase(7)
+	
+	if buffArray.has(9):
+		if chanceBuff >= 0.7 && (type == StateBuff.BUFF):
+			buffArray.erase(9)
+		elif chanceDebuff >= 0.7 && (type == StateBuff.DEBUFF):
+			buffArray.erase(9)
+	
+	print("BUFF EXCEPTION" ,buffArray)
+	return buffArray
+
+func effectBuff(buffId: int, type: int) -> void:
+	var stage: Dictionary = PlayerStatus.getCurrentStage()
+
+	match buffId:
+		0:
+			if StateBuff.BUFF == type:
+				print("EFFECT PLUS TIME")
+				PlayerStatus.changeGlobalTimer(effectTimeBuff[PlayerStatus.getCurrentPlayerStage()]["time"])
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT MINUS TIME")
+				PlayerStatus.minusGlobalTimer(effectTimeBuff[PlayerStatus.getCurrentPlayerStage()]["time"])
+		1:
+			if StateBuff.BUFF == type:
+				print("EFFECT ADD POINTS")
+				PlayerStatus.setPlayerPointsPlus(StateEffect.POINTS * stage["MultiplePoints"])
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT MINUS POINTS")
+				PlayerStatus.setPlayerPointsMinus(StateEffect.POINTS * stage["MultiplePoints"])
+		2:
+			if StateBuff.BUFF == type:
+				print("EFFECT SMALL FIELD SIZE")
+				if PlayerStatus.currentSize > 2:
+					PlayerStatus.currentSize -= 1
+					PlayerStatus.minPlate = 1
+					PlayerStatus.maxPlate = (PlayerStatus.currentSize * PlayerStatus.currentSize) - 1
+				
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT BIGGER FIELD SIZE")
+				if PlayerStatus.currentSize > 2 && PlayerStatus.currentSize < 4:
+					PlayerStatus.currentSize += 1
+					PlayerStatus.minPlate = 1
+					PlayerStatus.maxPlate = (PlayerStatus.currentSize * PlayerStatus.currentSize) - 1
+		3:
+			if StateBuff.BUFF == type:
+				print("Disable error Plate")
+				PlayerStatus.setIsErrorPlateBuffActive(false)
+			elif StateBuff.DEBUFF == type:
+				print("Active error Plate")
+				PlayerStatus.setIsErrorPlateBuffActive(true)
+		4:
+			if StateBuff.BUFF == type:
+				print("EFFECT SMALL PLATE")
+				if PlayerStatus.maxPlate > PlayerStatus.minPlate:
+					PlayerStatus.maxPlate -= effectPlateMinus[PlayerStatus.getCurrentPlayerStage()]["plate"]
+					if PlayerStatus.minPlate > 1:
+						PlayerStatus.minPlate -= 1
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT MORE PLATE")
+				if PlayerStatus.maxPlate < ((PlayerStatus.currentSize * PlayerStatus.currentSize) - 1):
+					PlayerStatus.maxPlate += effectPlateAdd[PlayerStatus.getCurrentPlayerStage()]["plate"]
+					PlayerStatus.minPlate += 1
+					print("check")
+		5:
+			if StateBuff.BUFF == type:
+				print("EFFECT LESS CHANCE FREEZE PLATE")
+				chanceFreezePlate -= PROCENTPLATE
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT MORE CHANCE FREEZE PLATE ")
+				chanceFreezePlate += PROCENTPLATE
+		6:
+			if StateBuff.BUFF == type:
+				print("EFFECT LESS CHANCE DEFENSE PLATE")
+				chanceDefensePlate -= PROCENTPLATE
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT MORE CHANCE DEFENSE PLATE")
+				chanceDefensePlate += PROCENTPLATE
+		7:
+			if StateBuff.BUFF == type:
+				print("EFFECT MORE CHANCE GOLD PLATE")
+				chanceGoldPlate += PROCENTPLATE
+			elif StateBuff.DEBUFF == type:
+				print("EFFECT LESS CHANCE GOLD PLATE")
+				chanceGoldPlate += PROCENTPLATE
+		8:
+			pass
+		9:
+			if StateBuff.BUFF == type:
+				print("MORE CHANCE BUFF")
+				chanceBuff += PROCENTDBF
+				chanceDebuff -= PROCENTDBF
+			elif StateBuff.DEBUFF == type:
+				print("MORE CHANCE DEBUFF")
+				chanceDebuff += PROCENTDBF
+				chanceBuff -= PROCENTDBF
+		10:
+			if StateBuff.BUFF == type:
+				print("DEFENSE BUFF")
+				PlayerStatus.setIsDefenseBuffActive(true)
+				PlayerStatus.setPlayerDefenseCount(TEMPDEFENS)
+			elif StateBuff.DEBUFF == type:
+				print("FADING DEBUFF")
+				PlayerStatus.setIsFadingBuffActive(true)
+		11:
+			if StateBuff.BUFF == type:
+				print("TIME FREEZE")
+				PlayerStatus.setIsFreezeBuffActive(true)
+				

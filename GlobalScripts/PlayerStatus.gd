@@ -1,14 +1,34 @@
 extends Node
 
-# Инициализиурем стадию при с
-func _ready():
+# Сброс изначальных настроек
+func onReadyDefaultSettings() -> void:
+	self._currentPlayerStage = 0
 	self._previosStage = _playerStage[_currentPlayerStage - 1]
 	self._nextStage = _playerStage[_currentPlayerStage + 1]
 	self._stage = _playerStage[_currentPlayerStage]
 	self.currentSize = self._stage["LevelSize"]
+#	self._global_timer = 400
+	self.LevelsCount = 1
+	self._playerPoints = 0.00
+	self._playerField.clear()
+	self._currentField.clear()
+	self._currentBuffStage.clear()
+	self._currentDebuffStage.clear()
+	self._isPath = false
+	ProbabilityBank.chanceBuff = 0.5
+	ProbabilityBank.chanceDebuff = 0.5
+#	ProbabilityBank.chanceFreezePlate = 0.05
+#	ProbabilityBank.chanceDefensePlate = 0.025
+#	ProbabilityBank.chanceGoldPlate = 0.05
 
 # Матрица для текущего уровня
 var _currentField: Array = []
+
+# Баффы текущего уровня
+var _buffStateCurrentLevel: Array = [] : set = setBuffStateCurrentLevel, get = getBuffStateCurrentLevel
+
+# Примененный бафф
+var _applyBuffId: Array = [] : set = setApplyBuffId, get = getApplyBuffId
 
 # Массив бафов для текущей стадии
 var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentBuffStage
@@ -16,11 +36,26 @@ var _currentBuffStage: Array = [] : set = setCurrentBuffStage, get = getCurrentB
 # Массив дебаффов для текущей стадии
 var _currentDebuffStage: Array = [] : set = setCurrentDebuffStage, get = getCurrentDebuffStage
 
+# Активен ли бафф ошибок
+var _isErrorPlateBuffActive: bool = false : set = setIsErrorPlateBuffActive, get = getIsErrorPlateBuffActive
+
+# Активен ли бафф фризер
+var _isFreezeBuffActive: bool = false : set = setIsFreezeBuffActive, get = getIsFreezeBuffActive
+
+# Количество ходов временной защиты от дебаффа (бафф временная защита)
+var _playerDefenseCount: int = 0 : set = setPlayerDefenseCount, get = getPlayerDefenseCount
+
+# Активен ли бафф защиты
+var _isDefenseBuffActive: bool = false : set = setIsDefenseBuffActive, get = getIsDefenseBuffActive
+
+# Активен ли дебафф медленное угасание
+var _isFadingBuffActive: bool = false : set = setIsFadingBuffActive, get = getIsFadingBuffActive
+
 # Стадии игры
 # ID - номер стадии
 # PointsStage - количество общих очков для достижерия стадии
 # TimePasle - Время на решение пазла
-# MultiplePoints - Множитель очков НЕ ИСПОЛЬЗУЕТСЯ
+# MultiplePoints - Множитель очков
 # MultiPlePointsPerSecond - Количество отнимаемых очков каждую секунду
 # PointsPerPasle - Количество очков за решеный пазл
 # LevelSize - значения (2,3,4) размер поля. ЕСЛИ 0 ТО ПОЛЕ БЕРЕТ ПАРАМЕТР ИЗ БАФФОВ И ПРЕДЫДУЩЕЙ СТАДИИ
@@ -106,8 +141,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 4,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8],
-		"AvalibaleDebuffsId": [0, 1, 8],
+		"AvalibaleBuffsId": [0, 1, 8, 11, 10],
+		"AvalibaleDebuffsId": [0, 1, 8, 10, 11],
 	},
 	3: {
 		"PointsStage": 1550.0,
@@ -121,8 +156,8 @@ var _playerStage: Dictionary = {
 		"PlatesDebuffMin": 3, 
 		"PlatesDebuffMax": 5,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 8],
-		"AvalibaleDebuffsId": [0, 1, 8],
+		"AvalibaleBuffsId": [0 ,3, 1, 8, 11, 10],
+		"AvalibaleDebuffsId": [0, 3, 1, 8, 10],
 	},
 	4: {
 		"PointsStage": 3800.0,
@@ -133,11 +168,11 @@ var _playerStage: Dictionary = {
 		"LevelSize": 3,
 		"PlatesBuffMin": 2,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 4,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 8, 9],
-		"AvalibaleDebuffsId": [0, 1, 4, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 3, 4, 8, 9, 11, 10],
+		"AvalibaleDebuffsId": [0, 1, 3, 4, 8, 9, 10],
 	},
 	5: {
 		"PointsStage": 8200.0,
@@ -148,11 +183,11 @@ var _playerStage: Dictionary = {
 		"LevelSize": 4,
 		"PlatesBuffMin": 2,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 4,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 5, 8, 9],
-		"AvalibaleDebuffsId": [0, 1, 4, 5, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 4, 3, 5, 8, 9, 11],
+		"AvalibaleDebuffsId": [0, 1, 4, 3, 5, 8, 9, 10],
 	},
 	6: {
 		"PointsStage": 14600.0,
@@ -161,13 +196,13 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 21.25,
 		"PointsPerPasle": 425,
 		"LevelSize": 0,
-		"PlatesBuffMin": 2, 
+		"PlatesBuffMin": 4, 
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 0,
 		"Path": true,
-		"AvalibaleBuffsId": [0, 1, 4, 5, 6, 8, 9],
-		"AvalibaleDebuffsId": [0, 1, 4, 5, 6, 8, 9],
+		"AvalibaleBuffsId": [0, 1, 3, 4, 5, 6, 8, 9],
+		"AvalibaleDebuffsId": [0, 1, 3, 4, 5, 6, 8, 9],
 	},
 	7: {
 		"PointsStage": 28800.0,
@@ -176,9 +211,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 26.25,
 		"PointsPerPasle": 525,
 		"LevelSize": 0,
-		"PlatesBuffMin": 2,
+		"PlatesBuffMin": 4,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 1,
+		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 4, 5, 6, 7, 8, 9],
@@ -191,7 +226,7 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 45.0,
 		"PointsPerPasle": 900,
 		"LevelSize": 0,
-		"PlatesBuffMin": 3,
+		"PlatesBuffMin": 4,
 		"PlatesBuffMax": 0,
 		"PlatesDebuffMin": 2,
 		"PlatesDebuffMax": 0,
@@ -206,9 +241,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 70.0,
 		"PointsPerPasle": 1400,
 		"LevelSize": 0,
-		"PlatesBuffMin": 4,
+		"PlatesBuffMin": 2,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 3,
+		"PlatesDebuffMin": 4,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -221,9 +256,9 @@ var _playerStage: Dictionary = {
 		"MultiPlePointsPerSecond": 75.0,
 		"PointsPerPasle": 1500,
 		"LevelSize": 0,
-		"PlatesBuffMin": 4,
+		"PlatesBuffMin": 2,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 3,
+		"PlatesDebuffMin": 4,
 		"PlatesDebuffMax": 0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -238,8 +273,8 @@ var _playerStage: Dictionary = {
 		"LevelSize": 0,
 		"PlatesBuffMin": 4,
 		"PlatesBuffMax": 0,
-		"PlatesDebuffMin": 3,
-		"PlatesDebuffMax": 0,
+		"PlatesDebuffMin": 2,
+		"PlatesDebuffMax":0,
 		"Path": true,
 		"AvalibaleBuffsId": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 		"AvalibaleDebuffsId": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -259,7 +294,7 @@ var minPlate: int = 3
 var maxPlate: int = 6
 
 # Вес генерации матрицы
-var weightMatrixGenerationSize: float = 0.9
+var weightMatrixGenerationSize: float = 0.8
 
 # Очки игрока
 var _playerPoints: float = 0.00 : get = getPlayerPoints
@@ -291,8 +326,10 @@ var _readyLevel: bool = false : set = setReadyLevel, get = getReadyLevel
 var _matrixCompare: bool = false : set = setCompareMatrix, get = getCompareMatrix
 
 # Общий таймер ( в секундах )
-var _global_timer: float = 120 : set = setGlobalTimer, get = getGlobalTimer
+var _global_timer: float = 400 : set = setGlobalTimer, get = getGlobalTimer
 
+# Включение ошибок на целевом поле
+var _isErrorPlateEnabled: bool = false
 
 func setCurrentLevelField() -> void:
 	_currentField.clear()
@@ -324,6 +361,9 @@ func getCompareMatrix() -> bool:
 
 func changeGlobalTimer(count: float) -> void:
 	_global_timer += count
+
+func minusGlobalTimer(count: float) -> void:
+	_global_timer -= count
 	
 func setGlobalTimer(time: float) -> void:
 	_global_timer = time
@@ -375,11 +415,68 @@ func getCurrentBuffStage() -> Array:
 
 func setCurrentBuffStage(buffs: Array) -> void:
 	_currentBuffStage.clear()
-	_currentBuffStage = buffs.duplicate()
+	_currentBuffStage = buffs.duplicate(true)
 
 func getCurrentDebuffStage() -> Array:
 	return _currentDebuffStage
 
 func setCurrentDebuffStage(buffs: Array) -> void:
 	_currentDebuffStage.clear()
-	_currentDebuffStage.append_array(buffs)
+	_currentDebuffStage = buffs.duplicate(true)
+
+func setBuffStateCurrentLevel(buffs: Array) -> void:
+	_buffStateCurrentLevel.push_back(buffs)
+
+func getBuffStateCurrentLevel() -> Array:
+	return _buffStateCurrentLevel
+
+func clearBuffStateCurrentLevel() -> void:
+	_buffStateCurrentLevel.clear()
+
+func setApplyBuffId(id) -> void:
+	_applyBuffId.push_back(id)
+
+func getApplyBuffId() -> Array:
+	return _applyBuffId
+
+func clearApplyBuffId() -> void:
+	_applyBuffId.clear()
+
+func setIsErrorPlate(isError: bool) -> void:
+	_isErrorPlateEnabled = isError
+
+func getIsErrorPlate() -> bool:
+	return _isErrorPlateEnabled
+
+func setIsErrorPlateBuffActive(isError: bool) -> void:
+	_isErrorPlateBuffActive = isError
+
+func getIsErrorPlateBuffActive() -> bool:
+	return _isErrorPlateBuffActive
+
+func setIsFreezeBuffActive(isFreeze: bool) -> void:
+	_isFreezeBuffActive = isFreeze
+
+func getIsFreezeBuffActive() -> bool:
+	return _isFreezeBuffActive
+
+func setPlayerDefenseCount(count: int) -> void:
+	_playerDefenseCount = count
+
+func getPlayerDefenseCount() -> int:
+	return _playerDefenseCount
+
+func minusPlayerDefenseCount(count: int) -> void:
+	_playerDefenseCount -= 1
+
+func setIsDefenseBuffActive(isActive: bool) -> void:
+	_isDefenseBuffActive = isActive
+
+func getIsDefenseBuffActive() -> bool:
+	return _isDefenseBuffActive
+
+func setIsFadingBuffActive(isActive: bool) -> void:
+	_isFadingBuffActive = isActive
+
+func getIsFadingBuffActive() -> bool:
+	return _isFadingBuffActive
