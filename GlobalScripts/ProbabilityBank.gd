@@ -607,6 +607,8 @@ func effectBuff(buffId: int, type: int) -> void:
 			elif StateBuff.DEBUFF == type:
 				print("EFFECT LESS CHANCE GOLD PLATE")
 				chanceGoldPlate += PROCENTPLATE
+		8:
+			pass
 		9:
 			if StateBuff.BUFF == type:
 				print("MORE CHANCE BUFF")
