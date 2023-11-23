@@ -13,8 +13,13 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.607843, 0.054902, 0, 0)
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.3
+[node name="TimerCheckStageWithPath" type="Timer" parent="."]
+wait_time = 0.1
 autostart = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="TimerCheckStageNoPath" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="TimerCheckStageWithPath" to="." method="_on_timer_check_stage_with_path_timeout"]
+[connection signal="timeout" from="TimerCheckStageNoPath" to="." method="_on_timer_check_stage_no_path_timeout"]

@@ -33,6 +33,15 @@ var exceptionBuffIdArray: Array = []
 # Массив исключенных дебаффов
 var exceptionDebuffIdArray: Array = []
 
+# Состояние для дебаффа медленное угасание
+var StateFading: Dictionary = {
+	"GeneralTime": 20.0,
+	"VisibleTime":4.0,
+	"InvisibleTime": 2.0,
+	"FadeInTime": 1.0,
+	"FadeOutTime": 1.0,
+}
+
 # Состояние баффа/дебаффа
 enum StateBuff {
 	BUFF = 0,
@@ -520,6 +529,12 @@ func updateBuffException(buffArray: Array, type: int) -> Array:
 		elif chanceGoldPlate >= 0.4 && (type == StateBuff.DEBUFF):
 			buffArray.erase(7)
 	
+	if buffArray.has(9):
+		if chanceBuff >= 0.7 && (type == StateBuff.BUFF):
+			buffArray.erase(9)
+		elif chanceDebuff >= 0.7 && (type == StateBuff.DEBUFF):
+			buffArray.erase(9)
+	
 	print("BUFF EXCEPTION" ,buffArray)
 	return buffArray
 
@@ -596,6 +611,8 @@ func effectBuff(buffId: int, type: int) -> void:
 			elif StateBuff.DEBUFF == type:
 				print("EFFECT LESS CHANCE GOLD PLATE")
 				chanceGoldPlate += PROCENTPLATE
+		8:
+			pass
 		9:
 			if StateBuff.BUFF == type:
 				print("MORE CHANCE BUFF")
@@ -607,9 +624,12 @@ func effectBuff(buffId: int, type: int) -> void:
 				chanceBuff -= PROCENTDBF
 		10:
 			if StateBuff.BUFF == type:
-				print("DEFENSE DEBUFF")
+				print("DEFENSE BUFF")
 				PlayerStatus.setIsDefenseBuffActive(true)
 				PlayerStatus.setPlayerDefenseCount(TEMPDEFENS)
+			elif StateBuff.DEBUFF == type:
+				print("FADING DEBUFF")
+				PlayerStatus.setIsFadingBuffActive(true)
 		11:
 			if StateBuff.BUFF == type:
 				print("TIME FREEZE")
