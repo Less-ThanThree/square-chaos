@@ -442,9 +442,15 @@ func chooseBuff(type: int, size: int, currentBuffArray: Array) -> int:
 	for i in range(size):
 		sumProb += probabilitis[i]
 		if randVal <= sumProb:
-			updateAfterDrop(i, currentBuffArray)
+			if type == StateBuff.BUFF:
+				updateAfterDrop(i, buffs)
+			elif type == StateBuff.DEBUFF:
+				updateAfterDrop(i, debuffs)
 			return currentBuffArray[i]["ID"]
-		updateWithoutDrop(i, currentBuffArray)
+		if type == StateBuff.BUFF:
+			updateWithoutDrop(i, buffs)
+		elif type == StateBuff.DEBUFF:
+			updateWithoutDrop(i, debuffs)
 		
 	return -1
 
@@ -458,15 +464,16 @@ func probability(idBuff: int, currentArrayBuff: Array) -> float:
 	return currentArrayBuff[idBuff]["W"] / sumWeight * 100
 
 # Обновление счётчика, если баф/дебаф не выпал
-func updateWithoutDrop(idBuff: int, currentArrayBuff: Array) -> void:
+func updateWithoutDrop(idBuff: int, currentArrayBuff) -> void:
 
 	currentArrayBuff[idBuff]["C"] += 1
 	if currentArrayBuff[idBuff]["C"] == currentArrayBuff[idBuff]["Max"]:
 		currentArrayBuff[idBuff]["W"] += currentArrayBuff[idBuff]["M"]
 		currentArrayBuff[idBuff]["C"] = 0
 
+
 # Обновление весов и счётчиков после выпадения бафа/дебафа i
-func updateAfterDrop(idBuff: int, currentArrayBuff: Array) -> void:
+func updateAfterDrop(idBuff: int, currentArrayBuff) -> void:
 	
 	currentArrayBuff[idBuff]["W"] -= currentArrayBuff[idBuff]["M"]
 	for i in currentArrayBuff.size():
