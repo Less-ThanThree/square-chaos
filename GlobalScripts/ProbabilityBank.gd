@@ -230,7 +230,7 @@ var buffs: Dictionary = {
 	6: {
 		"ID": 6,
 		"W": 40.0,
-		"M": 5.0,
+		"M": 4.0,
 		"C": 0,
 		"Max": 3,
 		"Name": "Меньше защищенных клеток",
@@ -266,7 +266,7 @@ var buffs: Dictionary = {
 	10: {
 		"ID": 10,
 		"W": 5.0,
-		"M": 5.0,
+		"M": 4.0,
 		"C": 0,
 		"Max": 4,
 		"Name": "Временная защита",
@@ -274,10 +274,10 @@ var buffs: Dictionary = {
 	},
 	11: {
 		"ID": 11,
-		"W": 5.0,
-		"M": 5.0,
+		"W": 100.0,
+		"M": 100.0,
 		"C": 0,
-		"Max": 3,
+		"Max": 15,
 		"Name": "Фризер",
 		"Description": "Убирает ограничение по времени, позволяя игроку решать пазлы в течение N времени без спешки.",
 	}
@@ -404,6 +404,7 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 	if procentBuff > procentDebuff:
 		PlayerStatus.setCurrentBuffStage(createBuffArray(StateBuff.BUFF, stageArrayBuff))
 #		var test = PlayerStatus.getCurrentBuffStage()
+		print(PlayerStatus.getCurrentBuffStage())
 		currentBuffId = chooseBuff(StateBuff.BUFF, PlayerStatus.getCurrentBuffStage().size(), PlayerStatus.getCurrentBuffStage())
 		if currentBuffId == -1:
 			print("Error")
@@ -435,24 +436,35 @@ func chooseBuff(type: int, size: int, currentBuffArray: Array) -> int:
 	var probabilitis: Array
 	var randVal = randf() * 100
 	var sumProb = 0.0
+	var idChooseBuff
 	
 	for i in range(size):
 		probabilitis.push_front(probability(i, currentBuffArray))
 	
-	for i in range(size):
-		sumProb += probabilitis[i]
+	print(probabilitis)
+	
+	
+	var counter: int = 0
+	for buff in currentBuffArray:
+		sumProb += probabilitis[counter]
+		counter += 1
 		if randVal <= sumProb:
 			if type == StateBuff.BUFF:
-				updateAfterDrop(i, buffs)
+				updateAfterDrop(buff["ID"], buffs)
 			elif type == StateBuff.DEBUFF:
-				updateAfterDrop(i, debuffs)
-			return currentBuffArray[i]["ID"]
-		if type == StateBuff.BUFF:
-			updateWithoutDrop(i, buffs)
-		elif type == StateBuff.DEBUFF:
-			updateWithoutDrop(i, debuffs)
-		
-	return -1
+				updateAfterDrop(buff["ID"], debuffs)
+			idChooseBuff = buff["ID"]
+			break
+	
+	for buff in currentBuffArray:
+		if StateBuff.BUFF:
+			if idChooseBuff != buff["ID"]:
+				updateWithoutDrop(buff["ID"], buffs)
+		if StateBuff.DEBUFF:
+			if idChooseBuff != buff["ID"]:
+				updateWithoutDrop(buff["ID"], debuffs)
+	
+	return idChooseBuff
 
 # Вычисление вероятности для бафа/дебафа i
 func probability(idBuff: int, currentArrayBuff: Array) -> float:
@@ -464,23 +476,20 @@ func probability(idBuff: int, currentArrayBuff: Array) -> float:
 	return currentArrayBuff[idBuff]["W"] / sumWeight * 100
 
 # Обновление счётчика, если баф/дебаф не выпал
-func updateWithoutDrop(idBuff: int, currentArrayBuff) -> void:
+func updateWithoutDrop(idBuff: int, currentArrayBuff: Dictionary) -> void:
 
 	currentArrayBuff[idBuff]["C"] += 1
 	if currentArrayBuff[idBuff]["C"] == currentArrayBuff[idBuff]["Max"]:
 		currentArrayBuff[idBuff]["W"] += currentArrayBuff[idBuff]["M"]
 		currentArrayBuff[idBuff]["C"] = 0
 
-
 # Обновление весов и счётчиков после выпадения бафа/дебафа i
-func updateAfterDrop(idBuff: int, currentArrayBuff) -> void:
+func updateAfterDrop(idBuff: int, currentArrayBuff: Dictionary) -> void:
 	
 	currentArrayBuff[idBuff]["W"] -= currentArrayBuff[idBuff]["M"]
 	for i in currentArrayBuff.size():
 		if i != idBuff:
 			currentArrayBuff[i]["W"] += currentArrayBuff[idBuff]["M"] / (currentArrayBuff.size() - 1)
-	
-	currentArrayBuff[idBuff]["C"]
 
 # Инициализируем массив баффоф/дебафоф для текущей стадии
 func createBuffArray(type: int, buffIdArray: Array) -> Array:
@@ -541,8 +550,7 @@ func updateBuffException(buffArray: Array, type: int) -> Array:
 			buffArray.erase(9)
 		elif chanceDebuff >= 0.7 && (type == StateBuff.DEBUFF):
 			buffArray.erase(9)
-	
-	print("BUFF EXCEPTION" ,buffArray)
+
 	return buffArray
 
 func effectBuff(buffId: int, type: int) -> void:
