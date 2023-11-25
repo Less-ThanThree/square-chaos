@@ -70,12 +70,12 @@ func getPlateActive() -> void:
 			if isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(0), int(buttonInfo[1]), int(buttonInfo[2])) && isErrorFieldActive(PlayerStatus.getPlayerLevelField(), PlayerStatus.getCurrentLevelField(1), int(buttonInfo[1]), int(buttonInfo[2])):
 				PlayerStatus.setIsErrorPlate(true)
 		
-	print("Player Matrix", PlayerStatus.getPlayerLevelField())
-	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
-	if PlayerStatus.LevelsCount >= 2:
-		print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
+#	print("Player Matrix", PlayerStatus.getPlayerLevelField())
+#	print("Matrix 1", PlayerStatus.getCurrentLevelField(0))
+#	if PlayerStatus.LevelsCount >= 2:
+#		print("Matrix 2", PlayerStatus.getCurrentLevelField(1))
 	if PlayerStatus.setCompareMatrix(GeneratorLevel.compareMatrix(PlayerStatus.getCurrentLevelField(0),PlayerStatus.getPlayerLevelField())):
-		print('Compare 1')
+#		print('Compare 1')
 		if PlayerStatus.getPath() == true:
 			var currentBuff = PlayerStatus.getBuffStateCurrentLevel()
 			print(currentBuff)
@@ -102,7 +102,7 @@ func getPlateActive() -> void:
 			PlayerStatus.setApplyBuffId(currentBuff[1][0])
 			PlayerStatus.setApplyBuffId(currentBuff[1][1])
 			PlayerStatus.clearBuffStateCurrentLevel()
-			print("Compare 2")
+#			print("Compare 2")
 			PlayerStatus.setCurrentLevelField()
 
 func isErrorFieldActive(playerFiled: Array, levelFiled: Array, x: int, y: int) -> bool:

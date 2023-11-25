@@ -392,51 +392,50 @@ func rollBuff(stageArrayBuff: Array, stageArrayDebuff: Array):
 	if procentBuff > procentDebuff:
 		PlayerStatus.setCurrentBuffStage(createBuffArray(StateBuff.BUFF, stageArrayBuff))
 #		var test = PlayerStatus.getCurrentBuffStage()
-		print(PlayerStatus.getCurrentBuffStage())
+#		print(PlayerStatus.getCurrentBuffStage())
 		currentBuffId = chooseBuff(StateBuff.BUFF, PlayerStatus.getCurrentBuffStage().size(), PlayerStatus.getCurrentBuffStage())
 		if currentBuffId == -1:
 			print("Error")
 		else:
-			print("Current Buff: %s" % self.buffs[currentBuffId]["Name"])
-			print("Weight: %10.2f" % self.buffs[currentBuffId]["W"])
-			print("Multiple: %8.2f" % self.buffs[currentBuffId]["M"])
-			print("Counter: %6d" % self.buffs[currentBuffId]["C"])
-			print("Max: %10d" % self.buffs[currentBuffId]["Max"])
+#			print("Current Buff: %s" % self.buffs[currentBuffId]["Name"])
+#			print("Weight: %10.2f" % self.buffs[currentBuffId]["W"])
+#			print("Multiple: %8.2f" % self.buffs[currentBuffId]["M"])
+#			print("Counter: %6d" % self.buffs[currentBuffId]["C"])
+#			print("Max: %10d" % self.buffs[currentBuffId]["Max"])
 			return [currentBuffId, StateBuff.BUFF]
 	else:
 		PlayerStatus.setCurrentDebuffStage(createBuffArray(StateBuff.DEBUFF, stageArrayDebuff))
 #		var test = PlayerStatus.getCurrentDebuffStage()
-		print(PlayerStatus.getCurrentDebuffStage())
+#		print(PlayerStatus.getCurrentDebuffStage())
 		currentBuffId = chooseBuff(StateBuff.DEBUFF, PlayerStatus.getCurrentDebuffStage().size(), PlayerStatus.getCurrentDebuffStage())
 		if currentBuffId == -1:
 			print("Error")
 		else:
-			print("Current Debuff: %s" % self.debuffs[currentBuffId]["Name"])
-			print("Weight: %10.2f" % self.debuffs[currentBuffId]["W"])
-			print("Multiple: %8.2f" % self.debuffs[currentBuffId]["M"])
-			print("Counter: %6d" % self.debuffs[currentBuffId]["C"])
-			print("Max: %10d" % self.debuffs[currentBuffId]["Max"])
+#			print("Current Debuff: %s" % self.debuffs[currentBuffId]["Name"])
+#			print("Weight: %10.2f" % self.debuffs[currentBuffId]["W"])
+#			print("Multiple: %8.2f" % self.debuffs[currentBuffId]["M"])
+#			print("Counter: %6d" % self.debuffs[currentBuffId]["C"])
+#			print("Max: %10d" % self.debuffs[currentBuffId]["Max"])
 			return [currentBuffId, StateBuff.DEBUFF]
 	return -1
 
 # Выбор бафа/дебафа на основе вероятностей
 func chooseBuff(type: int, size: int, currentBuffArray: Array) -> int:
 	var probabilitis: Array
-	var randVal = randf() * 100
+	var randVal: float
 	var sumProb = 0.0
 	var idChooseBuff
 	
 	for i in range(size):
 		probabilitis.push_front(probability(i, currentBuffArray))
 	
-	print(probabilitis)
-	
+	randVal = randf_range(0, probabilitis.max())
+#	print("Вероятность выпадения баффа: %8.2f" % randVal)
 	
 	var counter: int = 0
 	for buff in currentBuffArray:
-		sumProb += probabilitis[counter]
 		counter += 1
-		if randVal <= sumProb:
+		if randVal <= probabilitis[counter]:
 			if type == StateBuff.BUFF:
 				updateAfterDrop(buff["ID"], buffs)
 			elif type == StateBuff.DEBUFF:
@@ -473,8 +472,12 @@ func updateWithoutDrop(idBuff: int, currentArrayBuff: Dictionary) -> void:
 
 # Обновление весов и счётчиков после выпадения бафа/дебафа i
 func updateAfterDrop(idBuff: int, currentArrayBuff: Dictionary) -> void:
+	var sum: float = currentArrayBuff[idBuff]["W"] - currentArrayBuff[idBuff]["M"]
 	
-	currentArrayBuff[idBuff]["W"] -= currentArrayBuff[idBuff]["M"]
+#	if sum < 0.0:
+#		currentArrayBuff[idBuff]["W"] = 0.00001
+#	else:
+#		currentArrayBuff[idBuff]["W"] -= currentArrayBuff[idBuff]["M"]
 	for i in currentArrayBuff.size():
 		if i != idBuff:
 			currentArrayBuff[i]["W"] += currentArrayBuff[idBuff]["M"] / (currentArrayBuff.size() - 1)
