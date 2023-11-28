@@ -203,6 +203,9 @@ func setPlateSize(minPlate: int, maxPlate: int) -> void:
 		PlayerStatus.maxPlate = maxPlate
 	if (minPlate != 0):
 		PlayerStatus.minPlate = minPlate
+	
+	if (maxPlate > (PlayerStatus.currentSize * PlayerStatus.currentSize)):
+		PlayerStatus.maxPlate = (PlayerStatus.currentSize * PlayerStatus.currentSize) - 1
 
 #func setFadeDebuff():
 #	PlayerStatus.setIsFadingBuffActive(false)
