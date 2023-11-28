@@ -103,7 +103,7 @@ func _on_node_2d_compare_level():
 	var currentBuff = PlayerStatus.getApplyBuffId()
 	if !currentBuff.is_empty():
 		if currentBuff[0] == 1 && currentBuff[1] == ProbabilityBank.StateBuff.DEBUFF:
-			print("Minus PONINT!!!")
+#			print("Minus PONINT!!!")
 			minusPoints()
 			PlayerStatus.clearApplyBuffId()
 		else:

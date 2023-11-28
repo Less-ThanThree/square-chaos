@@ -36,5 +36,4 @@ movie_writer/movie_file="/Users/zendostan/Movies/output.avi"
 
 [rendering]
 
-renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
